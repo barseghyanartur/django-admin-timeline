@@ -1,3 +1,4 @@
+;
 // Scroll globals
 var adminTimeline_pageNum = 1; // The latest page loaded
 var adminTimeline_hasNextPage = true;

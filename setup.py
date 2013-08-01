@@ -12,7 +12,7 @@ templates = [os.path.join(template_dir, f) for f in os.listdir(template_dir)]
 static_dir = "src/admin_timeline/static"
 static_files = [os.path.join(static_dir, f) for f in os.listdir(static_dir)]
 
-version = '0.8'
+version = '0.9'
 
 setup(
     name = 'django-admin-timeline',

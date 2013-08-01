@@ -1,8 +1,8 @@
 __title__ = 'admin_timeline.templatetags.admin_timeline_tags'
-__version__ = '0.8'
-__build__ = 0x000008
+__version__ = '0.9'
+__build__ = 0x000009
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__all__ = ('assign',)
+__all__ = ('assign', 'get_full_name')
 
 from django import template
 
@@ -13,8 +13,8 @@ class AssignNode(template.Node):
     Node for ``assign`` tag.
     """
     def __init__(self, value, as_var):
-        self.as_var = as_var
         self.value = value
+        self.as_var = as_var
 
     def render(self, context):
         context[self.as_var] = self.value.resolve(context, True)
@@ -34,4 +34,34 @@ def assign(parser, token):
     if len(bits) != 4:
         raise template.TemplateSyntaxError("'%s' tag takes three arguments" % bits[0])
     value = parser.compile_filter(bits[1])
-    return AssignNode(as_var=bits[-1], value=value)
+    return AssignNode(value=value, as_var=bits[-1])
+
+
+class GetFullNameNode(template.Node):
+    """
+    Node for ``get_full_name`` tag.
+    """
+    def __init__(self, user, as_var):
+        self.user = user
+        self.as_var = as_var
+
+    def render(self, context):
+        user = self.user.resolve(context, True)
+        context[self.as_var] = user.get_full_name() or user.username
+        return ''
+
+@register.tag
+def get_full_name(parser, token):
+    """
+    Get users' full name.
+
+    Syntax::
+        {% get_full_name [user] as [name] %}
+    Example::
+        {% get_full_name entry.user as user_full_name %}
+    """
+    bits = token.contents.split()
+    if len(bits) != 4:
+        raise template.TemplateSyntaxError("'%s' tag takes three arguments" % bits[0])
+    user = parser.compile_filter(bits[1])
+    return GetFullNameNode(user=user, as_var=bits[-1])

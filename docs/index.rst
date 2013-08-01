@@ -18,11 +18,11 @@ Latest stable version from PyPI:
 
 Latest stable version from bitbucket:
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django_admin_timeline@stable#egg=django_admin_timeline
+    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
 
 Latest development version from bitbucket:
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django_admin_timeline#egg=django_admin_timeline
+    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline#egg=django-admin-timeline
 
 3. Add `admin_timeline` to your `INSTALLED_APPS` in the global settings.py.
 
@@ -51,7 +51,7 @@ Troubleshooting
 If somehow static files are not collected properly (missing admin_timeline.js and admin_timeline.css files), install
 the latest stable version from source.
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django_admin_timeline@stable#egg=django_admin_timeline
+    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
 
 Usage
 ===================================
@@ -59,7 +59,7 @@ After following all installation steps, you should  be able to access the admin-
 
     http://127.0.0.1:8000/admin/timeline/
 
-An example application is available. See the http://bitbucket.org/barseghyanartur/django_admin_timeline/src
+An example application is available. See the http://bitbucket.org/barseghyanartur/django-admin-timeline/src
 (example directory).
 
 Sample image:
