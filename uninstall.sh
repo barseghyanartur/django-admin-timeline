@@ -1,4 +1,4 @@
-pip uninstall django_admin_timeline
+pip uninstall django_admin_timeline -y
 rm build -rf
 rm dist -rf
 rm example/static -rf

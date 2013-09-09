@@ -4,8 +4,10 @@ Based on the MoSCoW principle.
 
 Must haves
 ------------------------------------------
-- Add multi-select to user filtering.
-- Filter by content type (multi-select).
++ Python 3 compatibility.
++ Add multi-select to user filtering.
++ Filter by content type (multi-select).
+- Python 2.6.8 support
 - Filter by date range.
 
 Should haves

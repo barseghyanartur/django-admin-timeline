@@ -1,5 +1,5 @@
 Package
-======================
+===================================
 django-admin-timeline
 
 Description
@@ -7,6 +7,11 @@ Description
 A Facebook-like timeline app for Django admin. It's very similar to built-in feature `Daily progress`, but then
 has a nicer templates and infinite scroll implemented. Actions are broken up by day, then by action. Filtering
 by user (multiple select) and content type (multiple select) is implemented.
+
+Prerequisites
+===================================
+- Django 1.5.+
+- Python 2.7.+, 3.3.+
 
 Installation
 ===================================
@@ -20,17 +25,17 @@ Latest stable version from bitbucket:
 
     $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
 
-Latest development version from bitbucket:
+Latest stable version from github:
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline#egg=django-admin-timeline
+    $ pip install -e git+https://github.com/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
 
 3. Add `admin_timeline` to your `INSTALLED_APPS` in the global settings.py.
 
-    >>> INSTALLED_APPS = (
-    >>>     # ...
-    >>>     'admin_timeline',
-    >>>     # ...
-    >>> )
+>>> INSTALLED_APPS = (
+>>>     # ...
+>>>     'admin_timeline',
+>>>     # ...
+>>> )
 
 4. Collect the static files by running (see the Troubleshooting section in case of problems):
 
@@ -42,9 +47,9 @@ Latest development version from bitbucket:
 
 6. Add the following lines to the global ``urls`` module:
 
-    >>> # Admin timeline URLs. Should be placed BEFORE the Django admin URLs.
-    >>> (r'^admin/timeline/', include('admin_timeline.urls')),
-    >>> url(r'^admin/', include(admin.site.urls)),
+>>> # Admin timeline URLs. Should be placed BEFORE the Django admin URLs.
+>>> (r'^admin/timeline/', include('admin_timeline.urls')),
+>>> url(r'^admin/', include(admin.site.urls)),
 
 Troubleshooting
 ===================================

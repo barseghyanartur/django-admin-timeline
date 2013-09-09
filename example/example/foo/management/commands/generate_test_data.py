@@ -1,5 +1,13 @@
-from string import translate, maketrans, punctuation
 import random
+
+from six import PY2, PY3
+from six import print_
+from six.moves import range
+
+if PY2:
+    from string import translate, maketrans, punctuation
+else:
+    from string import punctuation
 
 import radar
 
@@ -91,7 +99,11 @@ FACTORY = """
     dictum id.
     """
 
-split_words = lambda f: list(set(translate(f.lower(), maketrans(punctuation, ' ' * len(punctuation))).split()))
+if PY2:
+    split_words = lambda f: list(set(translate(f.lower(), maketrans(punctuation, ' ' * len(punctuation))).split()))
+else:
+    split_words = lambda f: list(set(f.lower().translate(str.maketrans("", "", punctuation)).split()))
+
 split_sentences = lambda f: f.split('?')
 change_date = lambda: bool(random.randint(0, 1))
 
@@ -133,14 +145,20 @@ class Command(BaseCommand):
 
         random_date = radar.random_datetime()
 
-        for index in xrange(NUM_ITEMS):
+        for index in range(NUM_ITEMS):
             # Saving an item to database
             FooItemModel = MODEL_FACTORY[random.randint(0, len(MODEL_FACTORY) - 1)]
             i = FooItemModel()
             random_name = words[random.randint(0, len(words) - 1)]
-            i.title = unicode(random_name).capitalize()
+
+            if PY2:
+                i.title = unicode(random_name).capitalize()
+                i.body = unicode(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
+            else:
+                i.title = str(random_name).capitalize()
+                i.body = str(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
+
             i.slug = slugify(i.title)
-            i.body = unicode(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
             random_date = radar.random_datetime() if change_date() else random_date
             i.date_published = random_date
 
@@ -151,8 +169,8 @@ class Command(BaseCommand):
                 if 0 == len(words):
                     words = WORDS
 
-            except Exception, e:
-                print e
+            except Exception as e:
+                print_(e)
 
             try:
                 # Creating a ``LogEntry`` for the item created.
@@ -161,9 +179,14 @@ class Command(BaseCommand):
                 l.user = users[random.randint(0, len(users) - 1)]
                 l.content_type = ContentType._default_manager.get_for_model(FooItemModel)
                 l.object_id = i.pk
-                l.object_repr = unicode(i)
+
+                if PY2:
+                    l.object_repr = unicode(i)
+                else:
+                    l.object_repr = str(i)
+
                 l.action_flag = ADDITION
                 #l.change_message = CHANGE_MESSAGE_FACTORY[random.randint(0, len(CHANGE_MESSAGE_FACTORY) - 1)]
                 l.save()
-            except Exception, e:
-                print e
+            except Exception as e:
+                print_(e)

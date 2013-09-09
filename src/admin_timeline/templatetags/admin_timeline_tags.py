@@ -1,6 +1,6 @@
 __title__ = 'admin_timeline.templatetags.admin_timeline_tags'
-__version__ = '0.9'
-__build__ = 0x000009
+__version__ = '1.0'
+__build__ = 0x00000a
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __all__ = ('assign', 'get_full_name')
 

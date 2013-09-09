@@ -1,6 +1,6 @@
 __title__ = 'admin_timeline.views'
-__version__ = '0.9'
-__build__ = 0x000009
+__version__ = '1.0'
+__build__ = 0x00000a
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __all__ = ('log',)
 
@@ -63,14 +63,14 @@ def log(request, template_name="admin_timeline/timeline.html", template_name_aja
         """
         try:
             return datetime.date(*map(lambda x: int(x), s.split("-")))
-        except Exception, e:
+        except Exception as e:
             return ""
 
     try:
         page = int(request.POST.get('page', 1))
         if page < 1:
             page = 1
-    except Exception, e:
+    except Exception as e:
         page = 1
 
     users = []
@@ -79,9 +79,9 @@ def log(request, template_name="admin_timeline/timeline.html", template_name_aja
 
     if 'POST' == request.method:
         post = dict(request.POST)
-        if post.has_key('users[]'):
+        if 'users[]' in post:
             post['users'] = post.pop('users[]')
-        if post.has_key('content_types[]'):
+        if 'content_types[]' in post:
             post['content_types'] = post.pop('content_types[]')
 
         filter_form = FilterForm(post)
