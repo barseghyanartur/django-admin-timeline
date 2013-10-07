@@ -16,3 +16,4 @@ dist/
 src/admin_timeline.egg-info
 src/django_admin_timeline.egg-info
 MANIFEST.in~
+.tox/

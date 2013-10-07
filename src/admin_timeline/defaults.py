@@ -1,6 +1,6 @@
 __title__ = 'admin_timeline.defaults'
-__version__ = '1.0'
-__build__ = 0x00000a
+__version__ = '1.1'
+__build__ = 0x00000b
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __all__ = ('NUMBER_OF_ENTRIES_PER_PAGE', 'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT', 'SINGLE_LOG_ENTRY_DATE_FORMAT', \
            'DEBUG')

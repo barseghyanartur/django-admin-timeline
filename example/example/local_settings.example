@@ -3,7 +3,7 @@ import os
 PROJECT_DIR = lambda base : os.path.abspath(os.path.join(os.path.dirname(__file__), base).replace('\\','/'))
 
 DEBUG = True
-DEBUG_TOOLBAR = True
+DEBUG_TOOLBAR = not True
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {

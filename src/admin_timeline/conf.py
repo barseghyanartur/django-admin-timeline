@@ -1,6 +1,6 @@
 __title__ = 'admin_timeline.conf'
-__version__ = '1.0'
-__build__ = 0x00000a
+__version__ = '1.1'
+__build__ = 0x00000b
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __all__ = ('get_setting',)
 
@@ -10,7 +10,7 @@ from admin_timeline import defaults
 
 def get_setting(setting, override=None):
     """
-    Get a setting from "admin_timeline" conf module, falling back to the default.
+    Get a setting from ``admin_timeline`` conf module, falling back to the default.
 
     If override is not None, it will be used instead of the setting.
 

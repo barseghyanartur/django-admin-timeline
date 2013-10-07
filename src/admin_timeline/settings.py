@@ -13,8 +13,8 @@ When it comes to importing the values, import them from ``admin_timeline.setting
 """
 
 __title__ = 'admin_timeline.settings'
-__version__ = '1.0'
-__build__ = 0x00000a
+__version__ = '1.1'
+__build__ = 0x00000b
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __all__ = ('NUMBER_OF_ENTRIES_PER_PAGE', 'SINGLE_LOG_ENTRY_DATE_FORMAT', 'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT', \
            'DEBUG')
