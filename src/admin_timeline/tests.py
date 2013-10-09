@@ -311,7 +311,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             password_input.send_keys('test')
             self.selenium.find_element_by_xpath('//input[@value="Log in"]').click()
 
-            WebDriverWait(self.selenium, timeout=4).until(
+            WebDriverWait(self.selenium, timeout=5).until(
                 lambda driver: driver.find_element_by_id('admin-timeline')
                 )
 

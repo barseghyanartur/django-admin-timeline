@@ -21,6 +21,7 @@ setup(
     long_description = readme,
     classifiers = [
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
@@ -45,6 +46,6 @@ setup(
     include_package_data = True,
     install_requires = [
         'six==1.4.1',
-        'radar==0.2',
+        'radar==0.3',
     ]
 )
