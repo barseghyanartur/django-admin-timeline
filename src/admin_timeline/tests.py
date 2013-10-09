@@ -1,8 +1,8 @@
 from __future__ import print_function
 
 __title__ = 'admin_timeline.tests'
-__version__ = '1.1'
-__build__ = 0x00000b
+__version__ = '1.2'
+__build__ = 0x00000c
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 
 import unittest

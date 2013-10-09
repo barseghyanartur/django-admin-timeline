@@ -11,7 +11,7 @@ by user (multiple select) and content type (multiple select) is implemented.
 Prerequisites
 ===================================
 - Django 1.5.+
-- Python 2.7.+, 3.3.+
+- Python 2.6.8+, 2.7.+, 3.3.+
 
 Installation
 ===================================
