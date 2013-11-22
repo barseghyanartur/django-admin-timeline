@@ -12,7 +12,7 @@ templates = [os.path.join(template_dir, f) for f in os.listdir(template_dir)]
 static_dir = "src/admin_timeline/static"
 static_files = [os.path.join(static_dir, f) for f in os.listdir(static_dir)]
 
-version = '1.2'
+version = '1.3'
 
 setup(
     name = 'django-admin-timeline',
@@ -45,7 +45,6 @@ setup(
     },
     include_package_data = True,
     install_requires = [
-        'six==1.4.1',
         'radar==0.3',
     ]
 )

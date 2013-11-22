@@ -1,7 +1,7 @@
 __title__ = 'admin_timeline.templatetags.admin_timeline_tags'
-__version__ = '1.2'
-__build__ = 0x00000c
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('assign', 'get_full_name')
 
 from django import template
@@ -32,7 +32,7 @@ def assign(parser, token):
     """
     bits = token.contents.split()
     if len(bits) != 4:
-        raise template.TemplateSyntaxError("'%s' tag takes three arguments" % bits[0])
+        raise template.TemplateSyntaxError("'{0}' tag takes three arguments".format(bits[0]))
     value = parser.compile_filter(bits[1])
     return AssignNode(value=value, as_var=bits[-1])
 
@@ -62,6 +62,6 @@ def get_full_name(parser, token):
     """
     bits = token.contents.split()
     if len(bits) != 4:
-        raise template.TemplateSyntaxError("'%s' tag takes three arguments" % bits[0])
+        raise template.TemplateSyntaxError("'{0}' tag takes three arguments".format(bits[0]))
     user = parser.compile_filter(bits[1])
     return GetFullNameNode(user=user, as_var=bits[-1])

@@ -2,7 +2,6 @@ Django==1.5.4
 Pillow==2.2.1
 python-dateutil==2.1
 selenium==2.35.0
-six==1.4.1
 tox==1.6.1
 
 #-e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline

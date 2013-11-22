@@ -1,7 +1,7 @@
 __title__ = 'admin_timeline.defaults'
-__version__ = '1.2'
-__build__ = 0x00000c
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('NUMBER_OF_ENTRIES_PER_PAGE', 'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT', 'SINGLE_LOG_ENTRY_DATE_FORMAT', \
            'DEBUG')
 

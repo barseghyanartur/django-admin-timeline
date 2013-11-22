@@ -20,4 +20,4 @@ After following all installation steps, you should  be able to access the admin-
 
 Admin credentials:
 
-    admin:admin
+    admin:test

@@ -1,9 +1,9 @@
 from __future__ import print_function
 
 __title__ = 'admin_timeline.tests'
-__version__ = '1.2'
-__build__ = 0x00000c
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
 
 import unittest
 import os
@@ -22,10 +22,10 @@ def print_info(func):
     def inner(self, *args, **kwargs):
         result = func(self, *args, **kwargs)
 
-        print('\n\n%s' % func.__name__)
+        print('\n\n{0}'.format(func.__name__))
         print('============================')
         if func.__doc__:
-            print('""" %s """' % func.__doc__.strip())
+            print('""" {0} """'.format(func.__doc__.strip()))
         print('----------------------------')
         if result is not None:
             print(result)
@@ -40,25 +40,16 @@ def print_info(func):
 
 import random
 
-from six import PY2, PY3
-from six import print_
-from six.moves import range
+import sys
 
-if PY2:
-    from string import translate, maketrans, punctuation
-else:
+PY3 = sys.version_info[0] == 3
+
+if PY3:
     from string import punctuation
+else:
+    from string import translate, maketrans, punctuation
 
 import radar
-
-from django.conf import settings
-from django.utils.text import slugify
-from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
-from django.db import models
-
-from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
 
 FACTORY = """
     Sed dictum in tellus non iaculis. Aenean ac interdum ipsum. Etiam tempor quis ante vel rhoncus. Nulla
@@ -138,104 +129,115 @@ FACTORY = """
     dictum id.
     """
 
-if PY2:
-    split_words = lambda f: list(set(translate(f.lower(), maketrans(punctuation, ' ' * len(punctuation))).split()))
-else:
+if PY3:
     split_words = lambda f: list(set(f.lower().translate(str.maketrans("", "", punctuation)).split()))
+else:
+    split_words = lambda f: list(set(translate(f.lower(), maketrans(punctuation, ' ' * len(punctuation))).split()))
 
 split_sentences = lambda f: f.split('?')
 change_date = lambda: bool(random.randint(0, 1))
 
-MODEL_FACTORY = (
-    FooItem,
-    Foo2Item,
-    Foo3Item,
-    Foo4Item
-)
-
-CHANGE_MESSAGE_FACTORY = (
-    'Changed title',
-    'Changed slug',
-    'Changed body',
-    'Changed date_published',
-)
 WORDS = split_words(FACTORY)
 SENTENCES = split_sentences(FACTORY)
 NUM_ITEMS = 50
 
 _ = lambda s: s
 
-def generate_data(num_items=NUM_ITEMS):
-    class CustomLogEntry(models.Model):
-        action_time = models.DateTimeField(_('action time'))
-        user = models.ForeignKey(settings.AUTH_USER_MODEL)
-        content_type = models.ForeignKey(ContentType, blank=True, null=True)
-        object_id = models.TextField(_('object id'), blank=True, null=True)
-        object_repr = models.CharField(_('object repr'), max_length=200)
-        action_flag = models.PositiveSmallIntegerField(_('action flag'))
-        change_message = models.TextField(_('change message'), blank=True)
-
-        class Meta:
-            db_table = LogEntry._meta.db_table
-
-    words = WORDS
-
-    users = User.objects.all()[:]
-
-    random_date = radar.random_datetime()
-
-    for index in range(num_items):
-        # Saving an item to database
-        FooItemModel = MODEL_FACTORY[random.randint(0, len(MODEL_FACTORY) - 1)]
-        i = FooItemModel()
-        random_name = words[random.randint(0, len(words) - 1)]
-
-        if PY2:
-            i.title = unicode(random_name).capitalize()
-            i.body = unicode(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
-        else:
-            i.title = str(random_name).capitalize()
-            i.body = str(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
-
-        i.slug = slugify(i.title)
-        random_date = radar.random_datetime() if change_date() else random_date
-        i.date_published = random_date
-
-        try:
-            i.save()
-            words.remove(random_name)
-
-            if 0 == len(words):
-                words = WORDS
-
-        except Exception as e:
-            print_(e)
-
-        try:
-            # Creating a ``LogEntry`` for the item created.
-            l = CustomLogEntry()
-            l.action_time = i.date_published
-            l.user = users[random.randint(0, len(users) - 1)]
-            l.content_type = ContentType._default_manager.get_for_model(FooItemModel)
-            l.object_id = i.pk
-
-            if PY2:
-                l.object_repr = unicode(i)
-            else:
-                l.object_repr = str(i)
-
-            l.action_flag = ADDITION
-            #l.change_message = CHANGE_MESSAGE_FACTORY[random.randint(0, len(CHANGE_MESSAGE_FACTORY) - 1)]
-            l.save()
-        except Exception as e:
-            print_(e)
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 # Skipping from non-Django tests.
 if os.environ.get("DJANGO_SETTINGS_MODULE", None):
+
+    from django.conf import settings
+    from django.utils.text import slugify
+    from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+    from django.contrib.auth.models import User
+    from django.contrib.contenttypes.models import ContentType
+    from django.db import models
+
+    from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
+
+    MODEL_FACTORY = (
+        FooItem,
+        Foo2Item,
+        Foo3Item,
+        Foo4Item
+    )
+
+    CHANGE_MESSAGE_FACTORY = (
+        'Changed title',
+        'Changed slug',
+        'Changed body',
+        'Changed date_published',
+    )
+
+    def generate_data(num_items=NUM_ITEMS):
+        class CustomLogEntry(models.Model):
+            action_time = models.DateTimeField(_('action time'))
+            user = models.ForeignKey(settings.AUTH_USER_MODEL)
+            content_type = models.ForeignKey(ContentType, blank=True, null=True)
+            object_id = models.TextField(_('object id'), blank=True, null=True)
+            object_repr = models.CharField(_('object repr'), max_length=200)
+            action_flag = models.PositiveSmallIntegerField(_('action flag'))
+            change_message = models.TextField(_('change message'), blank=True)
+
+            class Meta:
+                db_table = LogEntry._meta.db_table
+
+        words = WORDS
+
+        users = User.objects.all()[:]
+
+        random_date = radar.random_datetime()
+
+        for index in range(num_items):
+            # Saving an item to database
+            FooItemModel = MODEL_FACTORY[random.randint(0, len(MODEL_FACTORY) - 1)]
+            i = FooItemModel()
+            random_name = words[random.randint(0, len(words) - 1)]
+
+            if PY3:
+                i.title = str(random_name).capitalize()
+                i.body = str(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
+            else:
+                i.title = unicode(random_name).capitalize()
+                i.body = unicode(SENTENCES[random.randint(0, len(SENTENCES) - 1)])
+
+            i.slug = slugify(i.title)
+            random_date = radar.random_datetime() if change_date() else random_date
+            i.date_published = random_date
+
+            try:
+                i.save()
+                words.remove(random_name)
+
+                if 0 == len(words):
+                    words = WORDS
+
+            except Exception as e:
+                print(e)
+
+            try:
+                # Creating a ``LogEntry`` for the item created.
+                l = CustomLogEntry()
+                l.action_time = i.date_published
+                l.user = users[random.randint(0, len(users) - 1)]
+                l.content_type = ContentType._default_manager.get_for_model(FooItemModel)
+                l.object_id = i.pk
+
+                if PY3:
+                    l.object_repr = str(i)
+                else:
+                    l.object_repr = unicode(i)
+
+                l.action_flag = ADDITION
+                #l.change_message = CHANGE_MESSAGE_FACTORY[random.randint(0, len(CHANGE_MESSAGE_FACTORY) - 1)]
+                l.save()
+            except Exception as e:
+                print(e)
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     from django.test import LiveServerTestCase
     from django.contrib.auth.models import User
 
@@ -285,7 +287,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             """
             Test login.
             """
-            self.selenium.get('%s%s' % (self.live_server_url, '/admin/'))
+            self.selenium.get('{0}{1}'.format(self.live_server_url, '/admin/'))
             username_input = self.selenium.find_element_by_name("username")
             username_input.send_keys('admin')
             password_input = self.selenium.find_element_by_name("password")
@@ -304,7 +306,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
                 print(e)
 
             # Test login
-            self.selenium.get('%s%s' % (self.live_server_url, '/admin/timeline/'))
+            self.selenium.get('{0}{1}'.format(self.live_server_url, '/admin/timeline/'))
             username_input = self.selenium.find_element_by_name("username")
             username_input.send_keys('admin')
             password_input = self.selenium.find_element_by_name("password")
