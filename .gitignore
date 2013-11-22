@@ -3,6 +3,7 @@
 .gitignore~
 .hg/
 .git/
+.hgtags
 
 example/db/
 example/tmp/
