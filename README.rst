@@ -53,7 +53,7 @@ Latest stable version from github:
 
 Demo
 ===============================================
-In order to be able to quickly evaluate the `django-admin_timeline`, a demo app (with a quick installer) has been
+In order to be able to quickly evaluate the `django-admin-timeline`, a demo app (with a quick installer) has been
 created (works on Ubuntu/Debian, may work on other Linux systems as well, although not guaranteed). Follow the
 instructions below for having the demo running within a minute.
 
