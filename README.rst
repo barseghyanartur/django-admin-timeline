@@ -76,6 +76,13 @@ Open your browser and test the app.
 If quick installer doesn't work for you, see the manual steps on running the example project
 (https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example).
 
+Screenshots
+===================================
+Screenshots are available in documentation:
+
+- PythonHosted (http://pythonhosted.org/django-admin-timeline/#documentation)
+- Read the Docs (http://django-admin-timeline.readthedocs.org/en/latest/#documentation)
+
 Troubleshooting
 ===================================
 If somehow static files are not collected properly (missing admin_timeline.js and admin_timeline.css files), install

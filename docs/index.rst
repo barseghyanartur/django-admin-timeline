@@ -76,6 +76,13 @@ Open your browser and test the app.
 If quick installer doesn't work for you, see the manual steps on running the example project
 (https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example).
 
+Screenshots
+===================================
+Screenshots are available in documentation:
+
+- PythonHosted (http://pythonhosted.org/django-admin-timeline/#documentation)
+- Read the Docs (http://django-admin-timeline.readthedocs.org/en/latest/#documentation)
+
 Troubleshooting
 ===================================
 If somehow static files are not collected properly (missing admin_timeline.js and admin_timeline.css files), install
@@ -92,14 +99,25 @@ After following all installation steps, you should  be able to access the admin-
 An example application is available. See the following directory:
 https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example
 
+License
+===================================
+GPL 2.0/LGPL 2.1
+
+Support
+===================================
+For any issues contact me at the e-mail given in the `Author` section.
+
+Author
+===================================
+Artur Barseghyan <artur.barseghyan@gmail.com>
+
+Documentation
+===================================
 Sample image:
 
 .. image:: _static/admin_timeline.png
     :align: center
     :width: 900px
-
-Documentation
-===================================
 
 :mod:`settings` Module
 ------------------
@@ -128,15 +146,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-License
-===================================
-GPL 2.0/LGPL 2.1
-
-Support
-===================================
-For any issues contact me at the e-mail given in the `Author` section.
-
-Author
-===================================
-Artur Barseghyan <artur.barseghyan@gmail.com>
