@@ -10,8 +10,8 @@ by user (multiple select) and content type (multiple select) is implemented.
 
 Prerequisites
 ===================================
-- Django 1.5.+, 1.6.+
-- Python 2.6.8+, 2.7.+, 3.3.+
+- Django 1.5.*, 1.6.*, 1.7.*
+- Python 2.6.8, 2.7.*, 3.3.*
 
 Installation
 ===================================
