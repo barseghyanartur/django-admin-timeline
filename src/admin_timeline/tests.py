@@ -215,9 +215,10 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
         ]
 
         for user_data_dict in data:
-            for prop, value in user_data_dict:
+            for prop, value in user_data_dict.items():
                 user = User()
                 setattr(user, prop, value)
+                user.set_password('test')
                 try:
                     user.save()
                 except IntegrityError as e:
