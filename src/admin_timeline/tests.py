@@ -150,10 +150,78 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
     from django.utils.text import slugify
     from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
     from django.contrib.auth.models import User
+    from django.db import IntegrityError
     from django.contrib.contenttypes.models import ContentType
     from django.db import models
 
     from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
+
+    def create_users():
+        data = [
+            {
+                u'email': u'admin.v4@foreverchild.info',
+                u'first_name': u'',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': True,
+                u'last_name': u'',
+                u'username': u'admin'
+            },
+            {
+                u'email': u'artur.barseghyan@gmail.com',
+                u'first_name': u'Artur',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': True,
+                u'last_name': u'Barseghyan',
+                u'username': u'arturbarseghyan'
+            },
+            {
+                u'email': u'john.doe@example.com',
+                u'first_name': u'John',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': False,
+                u'last_name': u'Doe',
+                u'username': u'john.doe'
+            },
+            {
+                u'email': u'johnatan@example.com',
+                u'first_name': u'Johnatan',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': False,
+                u'last_name': u'Livingstone',
+                u'username': u'johnatan'
+            },
+            {
+                u'email': u'oscar@example.com',
+                u'first_name': u'Oscar',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': False,
+                u'last_name': u'',
+                u'username': u'oscar'
+            },
+            {
+                u'email': u'charlie@example.com',
+                u'first_name': u'Charlie',
+                u'is_active': True,
+                u'is_staff': True,
+                u'is_superuser': False,
+                u'last_name': u'Big Potatoe',
+                u'username': u'charlie'
+            }
+        ]
+
+        for user_data_dict in data:
+            for prop, value in user_data_dict:
+                user = User()
+                setattr(user, prop, value)
+                try:
+                    user.save()
+                except IntegrityError as e:
+                    pass
 
     MODEL_FACTORY = (
         FooItem,
@@ -170,6 +238,8 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
     )
 
     def generate_data(num_items=NUM_ITEMS):
+        create_users()
+
         class CustomLogEntry(models.Model):
             action_time = models.DateTimeField(_('action time'))
             user = models.ForeignKey(settings.AUTH_USER_MODEL)

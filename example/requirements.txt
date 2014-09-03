@@ -1,8 +1,19 @@
-Django==1.5.4
-Sphinx==1.2b3
-Pillow==2.2.1
-python-dateutil==2.1
-selenium==2.35.0
-tox==1.6.1
+#Django==1.5.4
+#Sphinx==1.2b3
+#Pillow==2.2.1
+#python-dateutil==2.1
+#selenium==2.35.0
+#tox==1.6.1
 
 #-e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
+
+reset
+./uninstall.sh
+./install.sh
+
+Django
+Sphinx
+Pillow
+python-dateutil
+selenium
+tox

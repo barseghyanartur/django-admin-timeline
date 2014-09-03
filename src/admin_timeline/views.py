@@ -4,10 +4,10 @@ __copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('log',)
 
+import json
 import datetime
 
 from django.http import HttpResponse
-from django.utils import simplejson as json
 from django.views.decorators.cache import never_cache
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.admin.models import LogEntry
