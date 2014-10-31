@@ -9,6 +9,7 @@ Must haves
 + Filter by content type (multi-select).
 - Python 2.6.8 support
 - Filter by date range.
+- Make sure the admin URL are fetched in a proper way (resolved).
 
 Should haves
 ------------------------------------------

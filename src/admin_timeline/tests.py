@@ -2,7 +2,7 @@ from __future__ import print_function
 
 __title__ = 'admin_timeline.tests'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__copyright__ = 'Copyright (c) 2013-2014 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
 import unittest
@@ -11,6 +11,10 @@ import os
 PROJECT_DIR = lambda base : os.path.join(os.path.dirname(__file__), base).replace('\\','/')
 
 PRINT_INFO = True
+
+TEST_USERNAME = 'admin'
+TEST_PASSWORD = 'test'
+USERS_CREATED = False
 
 def print_info(func):
     """
@@ -147,82 +151,110 @@ _ = lambda s: s
 if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
     from django.conf import settings
-    from django.utils.text import slugify
+
+    try:
+        from django.utils.text import slugify
+    except ImportError:
+        from django.template.defaultfilters import slugify
+
     from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
     from django.contrib.auth.models import User
     from django.db import IntegrityError
     from django.contrib.contenttypes.models import ContentType
     from django.db import models
 
+    # *************************************************************************
+    # **************** Safe User import for Django > 1.5, < 1.8 ***************
+    # *************************************************************************
+    try:
+        # Django 1.7 check
+        from django.apps import AppConfig
+        from django.conf import settings
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+    except ImportError:
+        # Django 1.6 check
+        try:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+        # Fall back to Django 1.5
+        except ImportError:
+            from django.contrib.auth.models import User
+        else:
+            User = get_user_model()
+
     from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
 
     def create_users():
-        data = [
-            {
-                u'email': u'admin.v4@foreverchild.info',
-                u'first_name': u'',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': True,
-                u'last_name': u'',
-                u'username': u'admin'
-            },
-            {
-                u'email': u'artur.barseghyan@gmail.com',
-                u'first_name': u'Artur',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': True,
-                u'last_name': u'Barseghyan',
-                u'username': u'arturbarseghyan'
-            },
-            {
-                u'email': u'john.doe@example.com',
-                u'first_name': u'John',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': False,
-                u'last_name': u'Doe',
-                u'username': u'john.doe'
-            },
-            {
-                u'email': u'johnatan@example.com',
-                u'first_name': u'Johnatan',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': False,
-                u'last_name': u'Livingstone',
-                u'username': u'johnatan'
-            },
-            {
-                u'email': u'oscar@example.com',
-                u'first_name': u'Oscar',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': False,
-                u'last_name': u'',
-                u'username': u'oscar'
-            },
-            {
-                u'email': u'charlie@example.com',
-                u'first_name': u'Charlie',
-                u'is_active': True,
-                u'is_staff': True,
-                u'is_superuser': False,
-                u'last_name': u'Big Potatoe',
-                u'username': u'charlie'
-            }
-        ]
+        if not USERS_CREATED:
+            data = [
+                {
+                    u'email': u'admin.v4@foreverchild.info',
+                    u'first_name': u'',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': True,
+                    u'last_name': u'',
+                    u'username': TEST_USERNAME
+                },
+                {
+                    u'email': u'artur.barseghyan@gmail.com',
+                    u'first_name': u'Artur',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': True,
+                    u'last_name': u'Barseghyan',
+                    u'username': u'arturbarseghyan'
+                },
+                {
+                    u'email': u'john.doe@example.com',
+                    u'first_name': u'John',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': False,
+                    u'last_name': u'Doe',
+                    u'username': u'john.doe'
+                },
+                {
+                    u'email': u'johnatan@example.com',
+                    u'first_name': u'Johnatan',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': False,
+                    u'last_name': u'Livingstone',
+                    u'username': u'johnatan'
+                },
+                {
+                    u'email': u'oscar@example.com',
+                    u'first_name': u'Oscar',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': False,
+                    u'last_name': u'',
+                    u'username': u'oscar'
+                },
+                {
+                    u'email': u'charlie@example.com',
+                    u'first_name': u'Charlie',
+                    u'is_active': True,
+                    u'is_staff': True,
+                    u'is_superuser': False,
+                    u'last_name': u'Big Potatoe',
+                    u'username': u'charlie'
+                }
+            ]
 
-        for user_data_dict in data:
-            for prop, value in user_data_dict.items():
-                user = User()
-                setattr(user, prop, value)
-                user.set_password('test')
-                try:
-                    user.save()
-                except IntegrityError as e:
-                    pass
+            for user_data_dict in data:
+                for prop, value in user_data_dict.items():
+                    user = User()
+                    setattr(user, prop, value)
+                    user.set_password(TEST_PASSWORD)
+                    try:
+                        user.save()
+                    except IntegrityError as e:
+                        print("{0} {1}".format(e, user))
+                    except Exception as e:
+                        print("{0} {1}".format(e, user))
 
     MODEL_FACTORY = (
         FooItem,
@@ -243,7 +275,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
         class CustomLogEntry(models.Model):
             action_time = models.DateTimeField(_('action time'))
-            user = models.ForeignKey(settings.AUTH_USER_MODEL)
+            user = models.ForeignKey(User)
             content_type = models.ForeignKey(ContentType, blank=True, null=True)
             object_id = models.TextField(_('object id'), blank=True, null=True)
             object_repr = models.CharField(_('object repr'), max_length=200)
@@ -310,7 +342,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     from django.test import LiveServerTestCase
-    from django.contrib.auth.models import User
+    #from django.contrib.auth.models import User
 
     from selenium.webdriver.firefox.webdriver import WebDriver
     from selenium.webdriver.support.wait import WebDriverWait
@@ -327,16 +359,25 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
             # Create user if doesn't exist yet.
             try:
-                u = User._default_manager.get(username='admin')
+                u = User._default_manager.get(username=TEST_USERNAME)
             except Exception as e:
                 print(e)
 
                 # Create a user account
                 u = User()
-                u.username = 'admin'
-                u.set_password('test')
+                u.username = TEST_USERNAME
+                u.set_password(TEST_PASSWORD)
                 u.email = 'admin@dev.example.com'
-                u.save()
+                u.is_active = True
+                u.is_staff = True
+                u.is_superuser = True
+
+                try:
+                    u.save()
+                except IntegrityError as e:
+                    print(e)
+                except Exception as e:
+                    print(e)
 
             # Generate test data
             try:
@@ -358,11 +399,13 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             """
             Test login.
             """
+            create_users()
             self.selenium.get('{0}{1}'.format(self.live_server_url, '/admin/'))
             username_input = self.selenium.find_element_by_name("username")
-            username_input.send_keys('admin')
+            username_input.send_keys(TEST_USERNAME)
             password_input = self.selenium.find_element_by_name("password")
-            password_input.send_keys('test')
+            password_input.send_keys(TEST_PASSWORD)
+            #import ipdb; ipdb.set_trace()
             self.selenium.find_element_by_xpath('//input[@value="Log in"]').click()
 
         @print_info
@@ -370,6 +413,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             """
             Test view.
             """
+            create_users()
             # Generate test data
             try:
                 generate_data(num_items=10)
@@ -379,9 +423,10 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             # Test login
             self.selenium.get('{0}{1}'.format(self.live_server_url, '/admin/timeline/'))
             username_input = self.selenium.find_element_by_name("username")
-            username_input.send_keys('admin')
+            username_input.send_keys(TEST_USERNAME)
             password_input = self.selenium.find_element_by_name("password")
-            password_input.send_keys('test')
+            password_input.send_keys(TEST_PASSWORD)
+            #import ipdb; ipdb.set_trace()
             self.selenium.find_element_by_xpath('//input[@value="Log in"]').click()
 
             WebDriverWait(self.selenium, timeout=5).until(

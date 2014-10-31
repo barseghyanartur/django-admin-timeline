@@ -1,3 +1,4 @@
+pip install selenium
 # Core tests
 ./uninstall.sh
 reset

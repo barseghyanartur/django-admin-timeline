@@ -1,0 +1,42 @@
+{% load i18n admin_timeline_tags %}
+
+{% for entry in admin_log %}
+    {% assign entry.action_time|date:"Y-m-d" as action_time %}
+
+    {% ifchanged action_time %}
+        {% if action_time != last_date %}
+    <li class="date-entry"><h1>{{ entry.action_time|date:LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT }}</h1></li>
+        {% endif %}
+    {% endifchanged %}
+
+    <li class="{% if forloop.counter|divisibleby:"2" %}odd{% else %}even{% endif %}">
+        <span class="time-entry">{{ entry.action_time|date:SINGLE_LOG_ENTRY_DATE_FORMAT }}</span>
+        {% if entry.is_addition %}
+            {% assign "Created" as entry_action %}
+        {% endif %}
+        {% if entry.is_change %}
+            {% assign "Changed" as entry_action %}
+        {% endif %}
+        {% if entry.is_deletion %}
+            {% assign "Deleted" as entry_action %}
+        {% endif %}
+
+        {% if entry.content_type %}
+            {% assign entry.content_type.name|capfirst as entry_content_type %}
+        {% endif %}
+        <div class="inner-block">
+        {% get_full_name entry.user as user_full_name %}
+        {% if entry.is_deletion %}
+            {% blocktrans with user_full_name as entry_user and entry.object_repr as entry_object_repr and entry.get_admin_url as entry_admin_url %}
+            <h3>{{ entry_user }} <span>{{ entry_action }} an</span> {{ entry_content_type }}</h3>
+            {{ entry_object_repr }}
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans with user_full_name as entry_user and entry.object_repr as entry_object_repr and entry.get_admin_url as entry_admin_url and entry.change_message as entry_change_message %}
+            <h3>{{ entry_user }} <span>{{ entry_action }} an</span> {{ entry_content_type }}</h3>
+            <a href="/admin/{{ entry_admin_url }}">{{ entry_object_repr }}<span class="change">{{ entry_change_message }}</span></a>
+            {% endblocktrans %}
+        {% endif %}
+        </div>
+    </li>
+{% endfor %}

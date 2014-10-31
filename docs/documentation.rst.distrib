@@ -1,0 +1,21 @@
+
+Documentation
+===============================================
+Screenshots are available in documentation:
+
+- PythonHosted (http://pythonhosted.org/django-admin-timeline/#documentation)
+- Read the Docs (http://django-admin-timeline.readthedocs.org/en/latest/#documentation)
+
+Contents:
+
+.. toctree::
+   :maxdepth: 20
+
+   fobi
+
+Indices and tables
+===============================================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
