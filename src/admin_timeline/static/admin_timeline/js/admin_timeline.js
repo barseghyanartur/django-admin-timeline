@@ -52,9 +52,14 @@ DjangoAdminTimeline.prototype = {
     url: '',
 
     /**
-     * Static URL (STATIC_URL).
+     * Static URL of the admin.
      */
-    static_url: '/static/',
+    staticURL: '/static/admin/',
+
+    /**
+     * Static URL to the loader image.
+     */
+    loaderImageURL: '/static/admin/loader.gif',
 
     /**
      * List/array of configurable properties (to avoid accidental mistakes).
@@ -66,7 +71,8 @@ DjangoAdminTimeline.prototype = {
         'startDate',
         'endDate',
         'url',
-        'static_url'
+        'staticURL',
+        'loaderImageURL'
     ],
 
     /**
@@ -98,6 +104,9 @@ DjangoAdminTimeline.prototype = {
 
         // Run
         this.run();
+
+        // Init fancy selects
+        this.initSelects();
     },
 
     /**
@@ -106,25 +115,40 @@ DjangoAdminTimeline.prototype = {
     loadOnScroll: function(ev) {
         var self = ev.data.context;
         // If the current scroll position is past out cutoff point...
-        if (django.jQuery(window).scrollTop() > django.jQuery(document).height() - (django.jQuery(window).height() * 3)) {
+        if (jQuery(window).scrollTop() > jQuery(document).height() - (jQuery(window).height() * 3)) {
             self.loadItems();
         }
     },
 
+    /**
+     * Runs the app.
+     */
     run: function() {
-        django.jQuery(window).bind('scroll', {context: this}, this.loadOnScroll);
+        // Bind <this.loadOnScroll> to the "scroll" event of <window>
+        jQuery(window).bind('scroll', {context: this}, this.loadOnScroll);
+    },
+
+    /**
+     * Init selects.
+     */
+    initSelects: function() {
+        jQuery('.admin-timeline-filter-form select').multipleSelect({
+            filter: true,
+            //multiple: true,
+            width: '100%'
+        });
     },
 
     /**
      *
      */
     showPreloader: function(stream) {
-        django.jQuery(stream).append(
+        jQuery(stream).append(
             '<l' +
             'i class="preloader" style="text-align:center;"><i' +
             'mg class="preloader" src="' +
-            this.static_url +
-            'images/loading.gif" /></l' +
+            this.loaderImageURL +
+            '" /></l' +
             'i>');
     },
 
@@ -132,7 +156,7 @@ DjangoAdminTimeline.prototype = {
      *
      */
     hidePreloader: function(stream) {
-        django.jQuery(stream).find('.preloader').remove();
+        jQuery(stream).find('.preloader').remove();
     },
 
     /**
@@ -150,14 +174,14 @@ DjangoAdminTimeline.prototype = {
         // Configure the url we're about to hit
         this.showPreloader("ul#admin-timeline");
 
-        django.jQuery.post(
+        jQuery.post(
             this.url,
             {'page': this.pageNum, 'last_date': this.lastDate,
              'users': this.users, 'content_types': this.contentTypes,
              'start_date': this.startDate, 'end_date': this.endDate},
             function(data) {
                 try {
-                    jsonData = django.jQuery.parseJSON(data);
+                    jsonData = jQuery.parseJSON(data);
                 } catch(err) {
                     jsonData = {success: 0};
                 }
@@ -167,7 +191,7 @@ DjangoAdminTimeline.prototype = {
                     self.hidePreloader("ul#admin-timeline");
 
                     // Pop all our items out into the page
-                    django.jQuery("ul#admin-timeline").append(jsonData.html);
+                    jQuery("ul#admin-timeline").append(jsonData.html);
                     self.lastDate = jsonData.last_date;
                     self.loading = false;
                 } else {

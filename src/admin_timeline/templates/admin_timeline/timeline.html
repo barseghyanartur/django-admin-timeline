@@ -5,15 +5,15 @@
 {% load static from staticfiles %}
 
 {% block extrastyle %}
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin_timeline.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'admin_timeline/css/admin_timeline.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'admin_timeline/libs/multiple-select/multiple-select.css' %}" />
 {% endblock extrastyle %}
 {% block extrahead %}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 <script src="{% static 'admin/js/core.js' %}"></script>
-{#<script src="{% static 'admin/js/jquery.js' %}"></script>#}
-<script src="{% static 'admin/js/jquery-1.10.2.min.js' %}"></script>
-<script src="{% static 'admin/js/jquery.init.js' %}"></script>
-<script src="{% static 'admin/js/admin_timeline.js' %}"></script>
+<script src="{% static 'admin_timeline/libs/jquery-1.11.2.min.js' %}"></script>
+<script src="{% static 'admin_timeline/libs/multiple-select/jquery.multiple.select.js' %}"></script>
+<script src="{% static 'admin_timeline/js/admin_timeline.js' %}"></script>
 
 {% endblock extrahead %}
 {% block coltype %}colMS{% endblock %}
@@ -78,7 +78,7 @@
 </div>
 
 <script type="text/javascript">
-    django.jQuery(document).ready(function(){
+    jQuery(document).ready(function(){
         var djangoAdminTimeline = new DjangoAdminTimeline();
 
         djangoAdminTimeline.init({
@@ -88,7 +88,7 @@
             startDate: "{{ start_date }}",
             endDate: "{{ end_date }}",
             url: "{% url 'admin_timeline.log' %}",
-            static_url: "{{ STATIC_URL }}"
+            loaderImageURL: "{% static 'admin/images/loading.gif' %}"
         });
     });
 </script>

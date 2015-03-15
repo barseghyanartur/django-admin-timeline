@@ -30,11 +30,11 @@ class FilterForm(forms.Form):
 
         self.fields['users'] = forms.MultipleChoiceField(
             choices = users(data),
-            widget = forms.CheckboxSelectMultiple,
+            #widget = forms.CheckboxSelectMultiple,
             required = False
             )
         self.fields['content_types'] = forms.MultipleChoiceField(
             choices = content_types(data),
-            widget = forms.CheckboxSelectMultiple,
+            #widget = forms.CheckboxSelectMultiple,
             required = False
             )

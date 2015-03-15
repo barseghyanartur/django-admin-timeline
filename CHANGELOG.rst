@@ -1,5 +1,14 @@
 Release history
 =====================================
+1.5.1
+-------------------------------------
+2015-03-16
+
+- Fix improperly resolved URLs of the content types.
+- Fix broken image loader URL.
+- Replace checkboxes with jQuery multiple-select plugin checkboxes.
+- Update the jQuery version used to 1.11.12.
+
 1.5
 -------------------------------------
 2015-03-15

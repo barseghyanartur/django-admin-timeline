@@ -34,7 +34,7 @@
         {% else %}
             {% blocktrans with user_full_name as entry_user and entry.object_repr as entry_object_repr and entry.get_admin_url as entry_admin_url and entry.change_message as entry_change_message %}
             <h3>{{ entry_user }} <span>{{ entry_action }} an</span> {{ entry_content_type }}</h3>
-            <a href="/admin/{{ entry_admin_url }}">{{ entry_object_repr }}<span class="change">{{ entry_change_message }}</span></a>
+            <a href="{{ entry_admin_url }}">{{ entry_object_repr }}<span class="change">{{ entry_change_message }}</span></a>
             {% endblocktrans %}
         {% endif %}
         </div>

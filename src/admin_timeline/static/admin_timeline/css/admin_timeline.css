@@ -102,7 +102,7 @@
     color: #555;
 }
 
-.admin-timeline-filter-form button {
+.admin-timeline-filter-form button[type="submit"] {
     padding: 0 16px;
     background: none no-repeat scroll right top #999999;
     border: 2px solid #999999;
@@ -111,10 +111,15 @@
     border-radius: 12px;
     line-height: 13px;
 }
-.admin-timeline-filter-form button:hover {
+.admin-timeline-filter-form button[type="submit"]:hover {
     background: none no-repeat scroll right top #5b80b2;
     border: 2px solid #5b80b2;
     cursor: pointer;
+}
+
+.admin-timeline-filter-form .ms-parent button[type="button"].ms-choice {
+    margin: 0 0 10px 0;
+    border-radius: 0;
 }
 
 .admin-timeline-filter-form ul {

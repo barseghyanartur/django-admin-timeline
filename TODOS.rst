@@ -9,11 +9,12 @@ Must haves
 + Filter by content type (multi-select).
 + Python 2.6.8 support
 + Make sure the admin URL are fetched in a proper way.
-- Heroku demo.
-- Filter by date range.
++ Heroku demo.
++ Replace checkboxes with nice selects.
 
 Should haves
 ------------------------------------------
+- Filter by date range.
 
 Could haves
 ------------------------------------------
