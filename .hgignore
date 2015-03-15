@@ -18,3 +18,4 @@ syntax: regexp
 local_settings\.py
 MANIFEST\.in~
 ^\.tox/
+^releases/
