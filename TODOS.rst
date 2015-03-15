@@ -7,9 +7,10 @@ Must haves
 + Python 3 compatibility.
 + Add multi-select to user filtering.
 + Filter by content type (multi-select).
-- Python 2.6.8 support
++ Python 2.6.8 support
++ Make sure the admin URL are fetched in a proper way.
+- Heroku demo.
 - Filter by date range.
-- Make sure the admin URL are fetched in a proper way (resolved).
 
 Should haves
 ------------------------------------------

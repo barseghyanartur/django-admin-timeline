@@ -18,4 +18,4 @@ builddocs.zip
 /src/django_admin_timeline.egg-info
 /MANIFEST.in~
 /.tox/
-
+/demos/

@@ -166,22 +166,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
     # *************************************************************************
     # **************** Safe User import for Django > 1.5, < 1.8 ***************
     # *************************************************************************
-    try:
-        # Django 1.7 check
-        from django.apps import AppConfig
-        from django.conf import settings
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-    except ImportError:
-        # Django 1.6 check
-        try:
-            from django.contrib.auth import get_user_model
-            User = get_user_model()
-        # Fall back to Django 1.5
-        except ImportError:
-            from django.contrib.auth.models import User
-        else:
-            User = get_user_model()
+    from nine.user import User
 
     from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
 
@@ -202,7 +187,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
                     u'first_name': u'Artur',
                     u'is_active': True,
                     u'is_staff': True,
-                    u'is_superuser': True,
+                    u'is_superuser': False,
                     u'last_name': u'Barseghyan',
                     u'username': u'arturbarseghyan'
                 },
@@ -245,16 +230,20 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             ]
 
             for user_data_dict in data:
+                user = User()
+
                 for prop, value in user_data_dict.items():
-                    user = User()
                     setattr(user, prop, value)
-                    user.set_password(TEST_PASSWORD)
-                    try:
-                        user.save()
-                    except IntegrityError as e:
-                        print("{0} {1}".format(e, user))
-                    except Exception as e:
-                        print("{0} {1}".format(e, user))
+
+                #print(user.__dict__)
+                #print("set password {0} for user {1}".format(TEST_PASSWORD, user.username))
+                user.set_password(TEST_PASSWORD)
+                try:
+                    user.save()
+                except IntegrityError as err:
+                    print("{0} {1}".format(err, user))
+                except Exception as err:
+                    print("{0} {1}".format(err, user))
 
     MODEL_FACTORY = (
         FooItem,
@@ -323,7 +312,8 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
                 l = CustomLogEntry()
                 l.action_time = i.date_published
                 l.user = users[random.randint(0, len(users) - 1)]
-                l.content_type = ContentType._default_manager.get_for_model(FooItemModel)
+                l.content_type = ContentType._default_manager \
+                                            .get_for_model(FooItemModel)
                 l.object_id = i.pk
 
                 if PY3:
@@ -332,7 +322,6 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
                     l.object_repr = unicode(i)
 
                 l.action_flag = ADDITION
-                #l.change_message = CHANGE_MESSAGE_FACTORY[random.randint(0, len(CHANGE_MESSAGE_FACTORY) - 1)]
                 l.save()
             except Exception as e:
                 print(e)

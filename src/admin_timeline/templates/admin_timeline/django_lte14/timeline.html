@@ -14,11 +14,6 @@
 <script src="{% static 'admin/js/jquery-1.10.2.min.js' %}"></script>
 <script src="{% static 'admin/js/jquery.init.js' %}"></script>
 <script src="{% static 'admin/js/admin_timeline.js' %}"></script>
-<script type="text/javascript">
-    //<!--
-    adminTimeline_init("{{ last_date }}", {{ users|safe }}, {{ content_types|safe }}, "{{ start_date }}", "{{ end_date }}", "{% url admin_timeline.log %}");
-    //-->
-</script>
 {% endblock extrahead %}
 {% block coltype %}colMS{% endblock %}
 
@@ -80,5 +75,21 @@
     {% endcomment %}
 
 </div>
+
+<script type="text/javascript">
+    django.jQuery(document).ready(function(){
+        var djangoAdminTimeline = new DjangoAdminTimeline();
+
+        djangoAdminTimeline.init({
+            lastDate: "{{ last_date }}",
+            users: {{ users|safe }},
+            contentTypes: {{ content_types|safe }},
+            startDate: "{{ start_date }}",
+            endDate: "{{ end_date }}",
+            url: "{% url 'admin_timeline.log' %}",
+            static_url: "{{ STATIC_URL }}"
+        });
+    });
+</script>
 {% endblock content %}
 

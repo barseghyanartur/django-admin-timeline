@@ -1,0 +1,8 @@
+https://www.djangoproject.com/download/1.8a1/tarball/
+
+#Django>=1.7,<1.8
+Sphinx
+Pillow
+python-dateutil
+selenium
+tox

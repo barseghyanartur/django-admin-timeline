@@ -1,5 +1,15 @@
 Release history
 =====================================
+1.5
+-------------------------------------
+2015-03-15
+
+- Django 1.8 support.
+- Support for wheel packages.
+- Refactored JavaScript.
+- Mention Heroku demo in documentation.
+- Minor speed-ups and improvements.
+
 1.4
 -------------------------------------
 2014-10-31

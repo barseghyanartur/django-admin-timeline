@@ -3,8 +3,10 @@ from setuptools import setup, find_packages
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
+    readme = readme.replace('.. code-block:: none', '.. code-block::')
     screenshots = open(os.path.join(os.path.dirname(__file__), 'SCREENSHOTS.rst')).read()
     screenshots = screenshots.replace('.. image:: _static', '.. figure:: https://github.com/barseghyanartur/django-admin-timeline/raw/master/docs/_static')
+    screenshots = screenshots.replace('.. code-block:: none', '.. code-block::')
 except:
     readme = ''
     screenshots = ''
@@ -15,7 +17,7 @@ templates = [os.path.join(template_dir, f) for f in os.listdir(template_dir)]
 static_dir = "src/admin_timeline/static"
 static_files = [os.path.join(static_dir, f) for f in os.listdir(static_dir)]
 
-version = '1.4'
+version = '1.5'
 
 setup(
     name = 'django-admin-timeline',
@@ -40,7 +42,6 @@ setup(
     author = 'Artur Barseghyan',
     author_email = 'artur.barseghyan@gmail.com',
     url = 'https://github.com/barseghyanartur/django-admin-timeline',
-    #url = 'https://bitbucket.org/barseghyanartur/django-admin-timeline',
     package_dir = {'':'src'},
     packages = find_packages(where='./src'),
     license = 'GPL 2.0/LGPL 2.1',
@@ -50,6 +51,7 @@ setup(
     include_package_data = True,
     install_requires = [
         'django>=1.4',
+        'django-nine>=0.1.1'
     ],
     tests_require = [
         'radar>=0.3',

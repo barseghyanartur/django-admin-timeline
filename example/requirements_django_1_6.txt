@@ -1,4 +1,4 @@
-Django
+Django>=1.6,<1.7
 Sphinx
 Pillow
 python-dateutil

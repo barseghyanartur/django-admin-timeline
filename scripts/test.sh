@@ -1,8 +1,8 @@
-pip install selenium
+pip install selenium --upgrade
 # Core tests
-./uninstall.sh
+./scripts/uninstall.sh
 reset
-./install.sh
+./scripts/install.sh
 reset
 python src/admin_timeline/tests.py
 
