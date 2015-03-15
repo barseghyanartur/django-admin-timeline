@@ -66,7 +66,8 @@ Demo
 ===================================
 Live demo
 -----------------------------------
-See the `live demo app <https://django-admin-timeline.herokuapp.com/>`_ on Heroku.
+See the `live demo app
+<https://django-admin-timeline.herokuapp.com/admin/timeline/>`_ on Heroku.
 
 Credentials:
 
