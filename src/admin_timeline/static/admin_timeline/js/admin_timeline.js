@@ -59,7 +59,7 @@ DjangoAdminTimeline.prototype = {
     /**
      * Static URL to the loader image.
      */
-    loaderImageURL: '/static/admin/loader.gif',
+    loaderImageURL: '/static/admin_timeline/loader.gif',
 
     /**
      * List/array of configurable properties (to avoid accidental mistakes).
