@@ -86,7 +86,7 @@
             contentTypes: {{ content_types|safe }},
             startDate: "{{ start_date }}",
             endDate: "{{ end_date }}",
-            url: "{% url 'admin_timeline.log' %}",
+            url: "{% url admin_timeline.log %}",
             loaderImageURL: "{% static 'admin/images/loading.gif' %}"
         });
     });

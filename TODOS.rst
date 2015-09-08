@@ -11,14 +11,18 @@ Must haves
 + Make sure the admin URL are fetched in a proper way.
 + Heroku demo.
 + Replace checkboxes with nice selects.
+- Filter by date range.
 
 Should haves
 ------------------------------------------
-- Filter by date range.
 
 Could haves
 ------------------------------------------
-- Export results to CSV or some separate report view.
+- Add support for themes.
+- Make bootstrap 3 theme.
+- Make foundation 5 theme.
+- Make django-cms-theme theme.
 
 Would haves
 ------------------------------------------
+- Export results to CSV or some separate report view.
