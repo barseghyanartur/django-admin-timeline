@@ -51,7 +51,7 @@ setup(
     include_package_data = True,
     install_requires = [
         'django>=1.4',
-        'django-nine>=0.1.1'
+        'django-nine>=0.1.4'
     ],
     tests_require = [
         'radar>=0.3',

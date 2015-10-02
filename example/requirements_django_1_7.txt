@@ -2,5 +2,6 @@ Django>=1.7,<1.8
 Sphinx
 Pillow
 python-dateutil
+radar
 selenium
 tox

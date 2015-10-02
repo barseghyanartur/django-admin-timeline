@@ -2,5 +2,6 @@ Django
 Sphinx
 Pillow
 python-dateutil
+radar
 selenium
 tox

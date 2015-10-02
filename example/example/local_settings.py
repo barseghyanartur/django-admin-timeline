@@ -5,7 +5,7 @@ PROJECT_DIR = lambda base : os.path.abspath(os.path.join(os.path.dirname(__file_
 DEBUG = True
 DEBUG_TOOLBAR = not True
 TEMPLATE_DEBUG = DEBUG
-DEV = True
+DEV = False
 
 DATABASES = {
     'default': {
