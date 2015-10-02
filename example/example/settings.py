@@ -6,6 +6,7 @@ gettext = lambda s: s
 DEBUG = False
 DEBUG_TOOLBAR = False
 TEMPLATE_DEBUG = DEBUG
+DEV = False
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -171,6 +172,11 @@ try:
     from local_settings import *
 except:
     pass
+
+# Make the `django-admin-timeline` package available without installation.
+if DEV:
+    import sys
+    sys.path.insert(0, os.path.abspath('../../src'))
 
 if DEBUG and DEBUG_TOOLBAR:
     # debug_toolbar

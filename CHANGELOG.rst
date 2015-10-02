@@ -1,5 +1,12 @@
 Release history
 ===============
+1.5.4
+-----
+2015-10-02
+
+- Fix broken admin URLs for entries on Django 1.4/1.5.
+
+
 1.5.3
 -----
 2015-09-08
