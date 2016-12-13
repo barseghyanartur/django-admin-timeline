@@ -1,0 +1,5 @@
+[run]
+omit =
+    src/admin_timeline/tests/*
+    example/simple/settings/*
+    example/simple/wsgi.py

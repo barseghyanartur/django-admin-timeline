@@ -4,14 +4,19 @@
 .hg/
 .git/
 .hgtags
+/.coverage
+/.cache/
+/geckodriver.log
+/ghostdriver.log
 
-/example/db/
-/example/tmp/
-/example/media/static/
-/example/media/_static/
-/example/static/
+/examples/db/
+/examples/tmp/
+/examples/logs/
+/examples/media/static/
+/examples/media/_static/
+/examples/static/
 /builddocs/
-builddocs.zip
+/builddocs.zip
 /build/
 /dist/
 /src/admin_timeline.egg-info

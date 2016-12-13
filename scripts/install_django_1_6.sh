@@ -1,7 +1,5 @@
-#pip install -r example/requirements.txt --allow-all-external --allow-unverified django-admin-tools
-#cd ..
-pip install -r example/requirements_django_1_6.txt
-mkdir -p example/media/ example/static/ example/db/
+pip install -r examples/requirements/django_1_6.txt
+mkdir -p examples/media/ examples/static/ examples/db/
 python setup.py install
-./example/example/manage.py collectstatic --noinput
-./example/example/manage.py syncdb --noinput
+./examples/simple/manage.py collectstatic --noinput
+./examples/simple/manage.py migrate --noinput

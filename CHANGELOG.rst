@@ -1,5 +1,29 @@
-Release history
-===============
+Release history and notes
+=========================
+`Sequence based identifiers
+<http://en.wikipedia.org/wiki/Software_versioning#Sequence-based_identifiers>`_
+are used for versioning (schema follows below):
+
+.. code-block:: none
+
+    major.minor[.revision]
+
+- It's always safe to upgrade within the same minor version (for example, from
+  0.3 to 0.3.4).
+- Minor version changes might be backwards incompatible. Read the
+  release notes carefully before upgrading (for example, when upgrading from
+  0.3.4 to 0.4).
+- All backwards incompatible changes are mentioned in this document.
+
+1.6
+---
+Announcing dropping support of Python 2.6 and Django 1.7. As of 0.9.17
+everything is still backwards compatible with Django 1.7, but in future
+versions it will be wiped out.
+
+- Django 1.9 and 1.8 compatibility.
+- pep8 fixes.
+
 1.5.4
 -----
 2015-10-02
@@ -68,4 +92,4 @@ Release history
 ---
 2013-09-09
 
-- Python 3.3.+ support
+- Python 3.3 support

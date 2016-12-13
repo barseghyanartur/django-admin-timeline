@@ -1,37 +1,45 @@
-__title__ = 'admin_timeline.views'
-__author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = 'Copyright (c) 2013-2015 Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('log',)
-
-import json
 import datetime
+import json
 
-from django.http import HttpResponse
-from django.views.decorators.cache import never_cache
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.admin.models import LogEntry
-from django.shortcuts import render_to_response
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
+# from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.template.defaultfilters import date as date_format
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
-from admin_timeline.settings import (
-    NUMBER_OF_ENTRIES_PER_PAGE, SINGLE_LOG_ENTRY_DATE_FORMAT
-    )
-from admin_timeline.settings import LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT
-from admin_timeline.forms import FilterForm
-from admin_timeline.compat import TEMPLATE_NAME, TEMPLATE_NAME_AJAX
+from nine import versions
+
+from .compat import TEMPLATE_NAME, TEMPLATE_NAME_AJAX
+from .forms import FilterForm
+from .settings import (
+    NUMBER_OF_ENTRIES_PER_PAGE,
+    SINGLE_LOG_ENTRY_DATE_FORMAT,
+    LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT
+)
+
+if versions.DJANGO_GTE_1_10:
+    from django.shortcuts import render
+else:
+    from django.shortcuts import render_to_response
+
+__title__ = 'admin_timeline.views'
+__author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = '2013-2016 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
+__all__ = ('log',)
+
 
 @csrf_exempt
 @never_cache
 @staff_member_required
-def log(request, template_name=TEMPLATE_NAME, \
+def log(request, template_name=TEMPLATE_NAME,
         template_name_ajax=TEMPLATE_NAME_AJAX):
-    """
-    Get number of log entires. Serves both non-AJAX and AJAX driven requests.
+    """Get log entries. Serves both non-AJAX and AJAX driven requests.
 
     Since we have a breakdown of entries per day per entry and we have an AJAX
     driven infinite scroll and we want to avoid having duplicated date headers,
@@ -65,23 +73,22 @@ def log(request, template_name=TEMPLATE_NAME, \
     NOTE: If it gets too complicatd with filtering, we need to have forms to
     validate and process the POST data.
     """
-    def _get_date_from_string(s):
-        """
-        Gets date from a string given.
+    def _get_date_from_string(val):
+        """Get date from a string given.
 
-        :param s: str - date in string format
+        :param str val:  - date in string format
         :return: datetime.datetime
         """
         try:
-            return datetime.date(*map(lambda x: int(x), s.split("-")))
-        except Exception as e:
+            return datetime.date(*map(lambda x: int(x), val.split("-")))
+        except Exception as err:
             return ""
 
     try:
         page = int(request.POST.get('page', 1))
         if page < 1:
             page = 1
-    except Exception as e:
+    except Exception as err:
         page = 1
 
     users = []
@@ -100,7 +107,7 @@ def log(request, template_name=TEMPLATE_NAME, \
             users = filter_form.cleaned_data['users']
             content_types = filter_form.cleaned_data['content_types']
         else:
-            pass # Anything to do here?
+            pass  # Anything to do here?
     else:
         filter_form = FilterForm()
 
@@ -115,10 +122,10 @@ def log(request, template_name=TEMPLATE_NAME, \
     end_date = _get_date_from_string(request.POST.get('end_date'))
 
     if start_date:
-        log_entries = log_entries.filter(action_time__gte=start_date) # TODO
+        log_entries = log_entries.filter(action_time__gte=start_date)  # TODO
 
     if end_date:
-        log_entries = log_entries.filter(action_time__lte=end_date) # TODO
+        log_entries = log_entries.filter(action_time__lte=end_date)  # TODO
 
     # If users given, filtering by users
     if users:
@@ -134,7 +141,7 @@ def log(request, template_name=TEMPLATE_NAME, \
     if log_entries:
         last_date = date_format(
             log_entries[len(log_entries) - 1].action_time, "Y-m-d"
-            )
+        )
     else:
         last_date = request.POST.get('last_date', None)
 
@@ -147,16 +154,23 @@ def log(request, template_name=TEMPLATE_NAME, \
             'page': page,
             'last_date': request.POST.get('last_date', None),
             'SINGLE_LOG_ENTRY_DATE_FORMAT': SINGLE_LOG_ENTRY_DATE_FORMAT,
-            'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT': \
+            'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT':
                 LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT
         }
 
         # Rendering HTML for an AJAX driven request
-        html = render_to_string(
-            template_name_ajax,
-            context,
-            context_instance=RequestContext(request)
-        )
+        if versions.DJANGO_GTE_1_10:
+            html = render_to_string(
+                template_name_ajax,
+                context,
+                request=request
+            )
+        else:
+            html = render_to_string(
+                template_name_ajax,
+                context,
+                context_instance=RequestContext(request)
+            )
 
         # Context to send back to user in a JSON response
         context = {
@@ -178,11 +192,16 @@ def log(request, template_name=TEMPLATE_NAME, \
         'content_types': [int(ct) for ct in content_types],
         'filter_form': filter_form,
         'SINGLE_LOG_ENTRY_DATE_FORMAT': SINGLE_LOG_ENTRY_DATE_FORMAT,
-        'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT': \
+        'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT':
             LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT,
-        'title': _("Timeline") # For template breadcrumbs, etc.
+        'title': _("Timeline")  # For template breadcrumbs, etc.
     }
 
-    return render_to_response(
-        template_name, context, context_instance=RequestContext(request)
+    if versions.DJANGO_GTE_1_10:
+        return render(request, template_name, context)
+    else:
+        return render_to_response(
+            template_name,
+            context,
+            context_instance=RequestContext(request)
         )

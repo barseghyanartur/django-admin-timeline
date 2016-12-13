@@ -1,7 +1,0 @@
-Django>=1.8,<1.9
-Sphinx
-Pillow
-python-dateutil
-radar
-selenium
-tox

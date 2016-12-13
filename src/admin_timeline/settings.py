@@ -15,21 +15,23 @@ value is "l j F Y".
 ``DEBUG``
 """
 
+from admin_timeline.conf import get_setting
+
 __title__ = 'admin_timeline.settings'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = 'Copyright (c) 2013-2015 Artur Barseghyan'
+__copyright__ = '2013-2016 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'NUMBER_OF_ENTRIES_PER_PAGE', 'SINGLE_LOG_ENTRY_DATE_FORMAT',
-    'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT', 'DEBUG',
+    'NUMBER_OF_ENTRIES_PER_PAGE',
+    'SINGLE_LOG_ENTRY_DATE_FORMAT',
+    'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT',
+    'DEBUG',
 )
-
-from admin_timeline.conf import get_setting
 
 NUMBER_OF_ENTRIES_PER_PAGE = get_setting('NUMBER_OF_ENTRIES_PER_PAGE')
 SINGLE_LOG_ENTRY_DATE_FORMAT = get_setting('SINGLE_LOG_ENTRY_DATE_FORMAT')
 LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT = get_setting(
     'LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT'
-    )
+)
 
 DEBUG = get_setting('DEBUG')

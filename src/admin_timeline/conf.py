@@ -1,19 +1,19 @@
+from django.conf import settings
+
+from . import defaults
+
 __title__ = 'admin_timeline.conf'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = 'Copyright (c) 2013-2015 Artur Barseghyan'
+__copyright__ = '2013-2016 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('get_setting',)
 
-from django.conf import settings
-
-from admin_timeline import defaults
 
 def get_setting(setting, override=None):
-    """
-    Get a setting from ``admin_timeline`` conf module, falling back to the
-    default.
+    """Get a setting from ``admin_timeline`` conf module.
 
-    If override is not None, it will be used instead of the setting.
+    Falling back to the default. If override is not None, it will be used
+    instead of the setting.
 
     :param setting: String with setting name
     :param override: Value to use when no default setting is available.

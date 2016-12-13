@@ -1,0 +1,6 @@
+-r common.txt
+-r testing.txt
+-r docs.txt
+
+Django>=1.7,<1.8
+sqlparse==0.1.9

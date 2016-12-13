@@ -1,9 +1,3 @@
-__title__ = 'admin_timeline.templatetags.admin_timeline_tags'
-__author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = 'Copyright (c) 2013-2015 Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('assign', 'get_full_name', 'resolve_admin_url',)
-
 from django import template
 from django.core.urlresolvers import reverse, NoReverseMatch
 
@@ -14,24 +8,37 @@ if DJANGO_GTE_1_7:
 else:
     from django.contrib.admin.util import quote
 
+__title__ = 'admin_timeline.templatetags.admin_timeline_tags'
+__author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = '2013-2016 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
+__all__ = (
+    'assign',
+    'get_full_name',
+    'resolve_admin_url',
+    'AssignNode',
+    'GetFullNameNode',
+)
+
 register = template.Library()
 
+
 class AssignNode(template.Node):
-    """
-    Node for ``assign`` tag.
-    """
+    """Node for ``assign`` tag."""
+
     def __init__(self, value, as_var):
         self.value = value
         self.as_var = as_var
 
     def render(self, context):
+        """Render."""
         context[self.as_var] = self.value.resolve(context, True)
         return ''
 
+
 @register.tag
 def assign(parser, token):
-    """
-    Assign an expression to a variable in the current context.
+    """Assign an expression to a variable in the current context.
 
     Syntax::
         {% assign [value] as [name] %}
@@ -47,22 +54,22 @@ def assign(parser, token):
 
 
 class GetFullNameNode(template.Node):
-    """
-    Node for ``get_full_name`` tag.
-    """
+    """Node for ``get_full_name`` tag."""
+
     def __init__(self, user, as_var):
         self.user = user
         self.as_var = as_var
 
     def render(self, context):
+        """Render."""
         user = self.user.resolve(context, True)
         context[self.as_var] = user.get_full_name() or user.username
         return ''
 
+
 @register.tag
 def get_full_name(parser, token):
-    """
-    Get users' full name.
+    """Get users' full name.
 
     Syntax::
         {% get_full_name [user] as [name] %}
@@ -76,8 +83,10 @@ def get_full_name(parser, token):
     user = parser.compile_filter(bits[1])
     return GetFullNameNode(user=user, as_var=bits[-1])
 
+
 @register.filter
 def resolve_admin_url(entry):
+    """Resolve admin URL."""
     if entry.content_type and entry.object_id:
         url_name = 'admin:%s_%s_change' % (entry.content_type.app_label,
                                            entry.content_type.model)
