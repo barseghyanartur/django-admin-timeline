@@ -108,7 +108,7 @@ Grab the latest ``django_admin_timeline_example_app_installer.sh``:
 
 .. code-block:: sh
 
-    wget https://raw.github.com/barseghyanartur/django-admin-timeline/stable/example/django_admin_timeline_example_app_installer.sh
+    wget https://raw.github.com/barseghyanartur/django-admin-timeline/stable/examples/django_admin_timeline_example_app_installer.sh
 
 Assign execute rights to the installer and run the
 ``django_admin_timeline_example_app_installer.sh``:
@@ -127,7 +127,7 @@ Open your browser and test the app.
 
 If quick installer doesn't work for you, see the manual steps on running the
 `example project
-<https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example>`_.
+<https://github.com/barseghyanartur/django-admin-timeline/tree/stable/examples>`_.
 
 Troubleshooting
 ===============
