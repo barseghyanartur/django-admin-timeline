@@ -136,7 +136,7 @@ and admin_timeline.css files), install the latest stable version from source.
 
 .. code-block:: sh
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
+    pip install pip install https://github.com/barseghyanartur/django-admin-timeline/archive/stable.tar.gz
 
 Usage
 =====
