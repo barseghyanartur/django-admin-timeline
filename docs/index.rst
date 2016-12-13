@@ -149,6 +149,27 @@ An example application is available. See the following directory:
 
 https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example
 
+
+Testing
+=======
+Simply type:
+
+.. code-block:: sh
+
+    ./runtests.py
+
+or use tox:
+
+.. code-block:: sh
+
+    tox
+
+or use tox to check specific env:
+
+.. code-block:: sh
+
+    tox -e py35
+
 License
 =======
 GPL 2.0/LGPL 2.1
