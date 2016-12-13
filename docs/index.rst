@@ -55,7 +55,7 @@ Latest stable version from github:
     pip install https://github.com/barseghyanartur/django-admin-timeline/archive/stable.tar.gz
 
 (2) Add ``admin_timeline`` to your ``INSTALLED_APPS`` in the
-   global ``settings.py``.
+    global ``settings.py``.
 
 .. code-block:: python
 
@@ -66,16 +66,16 @@ Latest stable version from github:
     )
 
 (3) Collect the static files by running (see the Troubleshooting section in
-   case of problems):
+    case of problems):
 
 .. code-block:: sh
 
     ./manage.py collectstatic
 
 (4) Override app settings in your global `settings` module (see the
-   ``apps.admin_timeline.defaults`` for the list of settings). As for now, most
-   important of those is ``NUMBER_OF_ENTRIES_PER_PAGE`` - number of entries
-   displayed per page (for both non-AJAX and AJAX requests).
+    ``apps.admin_timeline.defaults`` for the list of settings). As for now, most
+    important of those is ``NUMBER_OF_ENTRIES_PER_PAGE`` - number of entries
+    displayed per page (for both non-AJAX and AJAX requests).
 
 (5) Add the following lines to the global ``urls`` module:
 
