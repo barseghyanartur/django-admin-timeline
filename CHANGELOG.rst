@@ -17,8 +17,9 @@ are used for versioning (schema follows below):
 
 1.6
 ---
-Announcing dropping support of Python 2.6 and Django 1.7. As of 0.9.17
-everything is still backwards compatible with Django 1.7, but in future
+Announcing dropping support of Python versions 2.6 and 3.3, as well as
+Django versions 1.4, 1.5, 1.6 and 1.7. As of ``django-admin-timeline`` 1.6
+everything is still backwards compatible with these versions, but in future
 versions it will be wiped out.
 
 - Django 1.9 and 1.8 compatibility.
