@@ -143,12 +143,12 @@ Usage
 After following all installation steps, you should  be able to access the
 ``django-admin-timeline`` by:
 
+.. code-block:: text
+
     http://127.0.0.1:8000/admin/timeline/
 
-An example application is available. See the following directory:
-
-https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example
-
+An example application is available. See the `example directory
+<https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example>`_.
 
 Testing
 =======
