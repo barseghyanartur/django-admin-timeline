@@ -148,7 +148,7 @@ After following all installation steps, you should  be able to access the
     http://127.0.0.1:8000/admin/timeline/
 
 An example application is available. See the `example directory
-<https://github.com/barseghyanartur/django-admin-timeline/tree/stable/example>`_.
+<https://github.com/barseghyanartur/django-admin-timeline/tree/stable/examples>`_.
 
 Testing
 =======
