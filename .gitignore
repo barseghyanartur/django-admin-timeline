@@ -8,6 +8,8 @@
 /.cache/
 /geckodriver.log
 /ghostdriver.log
+/htmlcov/
+*.py,cover
 
 /examples/db/
 /examples/tmp/
