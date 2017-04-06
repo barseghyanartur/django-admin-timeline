@@ -15,6 +15,11 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+1.6.1
+-----
+
+- Minor fixes.
+
 1.6
 ---
 Announcing dropping support of Python versions 2.6 and 3.3, as well as

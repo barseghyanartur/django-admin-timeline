@@ -3,7 +3,7 @@ from django.contrib.admin.models import LogEntry
 
 __title__ = 'admin_timeline.forms'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2016 Artur Barseghyan'
+__copyright__ = '2013-2017 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'get_users',
@@ -18,10 +18,10 @@ def get_users(data):
         set(
             [
                 (
-                    d.user_id, d.user.get_full_name()
-                    if d.user.get_full_name()
-                    else d.user.username
-                ) for d in data
+                    __d.user_id, __d.user.get_full_name()
+                    if __d.user.get_full_name()
+                    else __d.user.username
+                ) for __d in data
             ]
         )
     )
@@ -29,7 +29,19 @@ def get_users(data):
 
 def get_content_types(data):
     """Get content type choices."""
-    return list(set([(d.content_type_id, d.content_type.name) for d in data]))
+    return list(
+        set(
+            [
+                (
+                    (__d.content_type_id, __d.content_type.name)
+                    if __d.content_type_id
+                    else (None, "")
+                )
+                for __d
+                in data
+            ]
+        )
+    )
 
 
 class FilterForm(forms.Form):
