@@ -5,10 +5,12 @@
 {% load static from staticfiles %}
 
 {% block extrastyle %}
+{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static 'admin_timeline/css/admin_timeline.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin_timeline/libs/multiple-select/multiple-select.css' %}" />
 {% endblock extrastyle %}
 {% block extrahead %}
+{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 <script src="{% static 'admin/js/core.js' %}"></script>
 <script src="{% static 'admin_timeline/libs/jquery-1.11.2.min.js' %}"></script>

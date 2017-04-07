@@ -19,7 +19,8 @@ are used for versioning (schema follows below):
 -----
 
 - Django 1.11 support.
-- Minor fixes.
+- Fix error on log entries without content type. #6
+- Fix templates style blocks not calling base template super. #7
 
 1.6
 ---
