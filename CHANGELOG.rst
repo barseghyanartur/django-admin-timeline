@@ -18,6 +18,7 @@ are used for versioning (schema follows below):
 1.6.1
 -----
 
+- Django 1.11 support.
 - Minor fixes.
 
 1.6

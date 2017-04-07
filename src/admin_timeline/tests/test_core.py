@@ -3,6 +3,8 @@ import os
 import random
 import unittest
 
+import pytest
+
 import radar
 
 from six import text_type
@@ -93,7 +95,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             action_flag = models.PositiveSmallIntegerField(_('action flag'))
             change_message = models.TextField(_('change message'), blank=True)
 
-            class Meta:
+            class Meta(object):
                 """Class meta."""
 
                 db_table = LogEntry._meta.db_table
@@ -106,9 +108,9 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
         for index in range(num_items):
             # Saving an item to database
-            foo_item_model_cls = MODEL_FACTORY[random.randint(
-                0, len(MODEL_FACTORY) - 1
-            )]
+            foo_item_model_cls = MODEL_FACTORY[
+                random.randint(0, len(MODEL_FACTORY) - 1)
+            ]
             item = foo_item_model_cls()
             random_name = words[random.randint(0, len(words) - 1)]
 
@@ -133,6 +135,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             except Exception as err:
                 logger.debug(err)
 
+            # Create an item with content type
             try:
                 # Creating a ``LogEntry`` for the item created.
                 log_entry = CustomLogEntry()
@@ -150,6 +153,19 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             except Exception as err:
                 logger.debug(err)
 
+            # Create an item without content type
+            try:
+                # Creating a ``LogEntry`` for the item created.
+                log_entry = CustomLogEntry()
+                log_entry.action_time = item.date_published
+                log_entry.user = users[random.randint(0, len(users) - 1)]
+                log_entry.object_repr = text_type(item)
+
+                log_entry.action_flag = ADDITION
+                log_entry.save()
+            except Exception as err:
+                logger.debug(err)
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -158,12 +174,14 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
     from selenium import webdriver
     from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-    # from selenium.webdriver.firefox.webdriver import WebDriver
     from selenium.webdriver.support.wait import WebDriverWait
-    from selenium.common.exceptions import WebDriverException
+    # from selenium.common.exceptions import WebDriverException
 
+    @pytest.mark.django_db
     class AdminTimelineViewsTest(LiveServerTestCase):
         """Tests of ``admin_timeline.views.log`` module."""
+
+        pytestmark = pytest.mark.django_db
 
         @classmethod
         def setUpClass(cls):
@@ -173,16 +191,16 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             )
             if phantom_js_executable_path is not None:
                 if phantom_js_executable_path:
-                    cls.selenium = webdriver.PhantomJS(
+                    cls.driver = webdriver.PhantomJS(
                         executable_path=phantom_js_executable_path
                     )
                 else:
-                    cls.selenium = webdriver.PhantomJS()
+                    cls.driver = webdriver.PhantomJS()
             elif firefox_bin_path:
                 binary = FirefoxBinary(firefox_bin_path)
-                cls.selenium = webdriver.Firefox(firefox_binary=binary)
+                cls.driver = webdriver.Firefox(firefox_binary=binary)
             else:
-                cls.selenium = webdriver.Firefox()
+                cls.driver = webdriver.Firefox()
 
             super(AdminTimelineViewsTest, cls).setUpClass()
 
@@ -217,7 +235,7 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
         @classmethod
         def tearDownClass(cls):
             try:
-                cls.selenium.quit()
+                cls.driver.quit()
             except Exception as err:
                 logger.debug(err)
 
@@ -230,12 +248,12 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
         @log_info
         def test_01_login(self):
             """Test login."""
-            self.selenium.get('{0}{1}'.format(self.live_server_url, '/admin/'))
-            username_input = self.selenium.find_element_by_name("username")
+            self.driver.get('{0}{1}'.format(self.live_server_url, '/admin/'))
+            username_input = self.driver.find_element_by_name("username")
             username_input.send_keys(TEST_USERNAME)
-            password_input = self.selenium.find_element_by_name("password")
+            password_input = self.driver.find_element_by_name("password")
             password_input.send_keys(TEST_PASSWORD)
-            self.selenium.find_element_by_xpath(
+            self.driver.find_element_by_xpath(
                 '//input[@value="Log in"]').click()
 
         @log_info
@@ -249,29 +267,30 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             #     logger.debug(err)
 
             # Test login
-            self.selenium.get(
+            self.driver.get(
                 '{0}{1}'.format(self.live_server_url, '/admin/timeline/')
             )
-            username_input = self.selenium.find_element_by_name("username")
+            username_input = self.driver.find_element_by_name("username")
             username_input.send_keys(TEST_USERNAME)
-            password_input = self.selenium.find_element_by_name("password")
+            password_input = self.driver.find_element_by_name("password")
             password_input.send_keys(TEST_PASSWORD)
-            self.selenium.find_element_by_xpath(
+            self.driver.find_element_by_xpath(
                 '//input[@value="Log in"]').click()
 
-            WebDriverWait(self.selenium, timeout=5).until(
+            WebDriverWait(self.driver, timeout=5).until(
                 lambda driver: driver.find_element_by_id('admin-timeline')
             )
 
             # Test view
             workflow = []
 
-            container = self.selenium.find_element_by_id('admin-timeline')
+            container = self.driver.find_element_by_id('admin-timeline')
             self.assertTrue(container is not None)
             workflow.append(container)
 
-            item = self.selenium.find_element_by_xpath(
-                '//li[@class="date-entry"]')
+            item = self.driver.find_element_by_xpath(
+                '//li[@class="date-entry"]'
+            )
             self.assertTrue(item is not None)
             workflow.append(item)
 

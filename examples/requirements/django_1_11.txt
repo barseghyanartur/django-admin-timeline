@@ -3,5 +3,5 @@
 -r docs.txt
 -r test.txt
 
-Django>=1.9,<1.10
+Django>=1.11,<2.0
 sqlparse==0.2.2

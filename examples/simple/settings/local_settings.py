@@ -41,4 +41,4 @@ os.environ.setdefault(
 )
 
 FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
-PHANTOM_JS_EXECUTABLE_PATH = ''
+# PHANTOM_JS_EXECUTABLE_PATH = ''

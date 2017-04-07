@@ -1,6 +1,7 @@
 -r common.txt
--r testing.txt
+-r debug.txt
 -r docs.txt
+-r test.txt
 
 Django>=1.10,<1.11
 sqlparse==0.2.2

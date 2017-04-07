@@ -4,7 +4,7 @@
 {% for entry in admin_log %}
     {% assign entry.action_time|date:"Y-m-d" as action_time %}
 
-    {% ifchanged action_time %}
+    {% ifchanged action_time or forloop.fist %}
         {% if action_time != last_date %}
     <li class="date-entry"><h1>{{ entry.action_time|date:LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT }}</h1></li>
         {% endif %}

@@ -1,1 +1,4 @@
+docutils
+Jinja2
+MarkupSafe
 Sphinx

@@ -12,8 +12,8 @@ Present
 -------
 Starting from ``django-admin-timeline`` 1.7:
 
-- Django 1.8, 1.9, 1.10
-- Python 2.7, 3.4, 3.5
+- Django 1.8, 1.9, 1.10, 1.11
+- Python 2.7, 3.4, 3.5, 3.6
 
 Past
 ----
@@ -42,13 +42,13 @@ Latest stable version from PyPI:
 
     pip install django-admin-timeline
 
-Latest stable version from bitbucket:
+Latest stable version from BitBucket:
 
 .. code-block:: sh
 
-    pip install -e hg+http://bitbucket.org/barseghyanartur/django-admin-timeline@stable#egg=django-admin-timeline
+    pip install https://bitbucket.org/barseghyanartur/django-admin-timeline/get/stable.tar.gz
 
-Latest stable version from github:
+Latest stable version from GitHub:
 
 .. code-block:: sh
 
@@ -72,10 +72,10 @@ Latest stable version from github:
 
     ./manage.py collectstatic
 
-(4) Override app settings in your global `settings` module (see the
-    ``apps.admin_timeline.defaults`` for the list of settings). As for now, most
-    important of those is ``NUMBER_OF_ENTRIES_PER_PAGE`` - number of entries
-    displayed per page (for both non-AJAX and AJAX requests).
+(4) Override app settings in your global ``settings`` module (see the
+    ``apps.admin_timeline.defaults`` for the list of settings). As for now,
+    most important of those is ``NUMBER_OF_ENTRIES_PER_PAGE`` - number of
+    entries displayed per page (for both non-AJAX and AJAX requests).
 
 (5) Add the following lines to the global ``urls`` module:
 
@@ -152,23 +152,108 @@ An example application is available. See the `example directory
 
 Testing
 =======
-Simply type:
-
-.. code-block:: sh
-
-    ./runtests.py
-
-or use tox:
+Project is covered by test (functional- and browser-tests).
+To test with all supported Python/Django versions type:
 
 .. code-block:: sh
 
     tox
 
-or use tox to check specific env:
+To test against specific environment, type:
 
 .. code-block:: sh
 
-    tox -e py35
+    tox -e py36-django111
+
+To test just your working environment type:
+
+.. code-block:: sh
+
+    ./runtests.py
+
+It's assumed that you have all the requirements installed. If not, first
+install the test requirements:
+
+.. code-block:: sh
+
+    pip install -r examples/requirements/testing.txt
+
+Browser tests
+-------------
+For browser tests you may choose between Firefox, headless Firefox and
+PhantomJS. PhantomJS is faster, headless Firefox is fast as well, but
+normal Firefox tests tell you more (as you see what exactly happens on the
+screen). Both cases require some effort and both have disadvantages regarding
+the installation (although once you have them installed they work perfect).
+
+Latest versions of Firefox are often not supported by Selenium. Current
+version of the Selenium for Python (2.53.6) works fine with Firefox 47.
+Thus, instead of using system Firefox you could better use a custom one.
+
+For PhantomJS you need to have NodeJS installed.
+
+Set up Firefox 47
+~~~~~~~~~~~~~~~~~
+1. Download Firefox 47 from
+   `this
+   <https://ftp.mozilla.org/pub/firefox/releases/47.0.1/linux-x86_64/en-GB/firefox-47.0.1.tar.bz2>`__
+   location and unzip it into ``/usr/lib/firefox47/``
+
+2. Specify the full path to your Firefox in ``FIREFOX_BIN_PATH``
+   setting. Example:
+
+   .. code-block:: python
+
+       FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
+
+   If you set to use system Firefox, remove or comment-out the
+   ``FIREFOX_BIN_PATH`` setting.
+
+After that your Selenium tests would work.
+
+Set up headless Firefox
+~~~~~~~~~~~~~~~~~~~~~~~
+1. Install ``xvfb`` package which is used to start Firefox in headless mode.
+
+   .. code-block:: sh
+
+        sudo apt-get install xvfb
+
+2. Run the tests using headless Firefox.
+
+   .. code-block:: sh
+
+        ./scripts/runtests.sh
+
+   Or run tox tests using headless Firefox.
+
+   .. code-block:: sh
+
+        ./scripts/tox.sh
+
+Setup PhantomJS
+~~~~~~~~~~~~~~~
+You could also run tests in headless mode (faster). For that you will need
+PhantomJS.
+
+1. Install PhantomJS and dependencies.
+
+   .. code-block:: sh
+
+       curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+       sudo bash nodesource_setup.sh
+       sudo apt-get install nodejs
+       sudo apt-get install build-essential libssl-dev
+       sudo npm -g install phantomjs-prebuilt
+
+2. Specify the ``PHANTOM_JS_EXECUTABLE_PATH`` setting. Example:
+
+   .. code-block:: python
+
+       PHANTOM_JS_EXECUTABLE_PATH = ""
+
+   If you want to use Firefox for testing, remove or comment-out the
+   ``PHANTOM_JS_EXECUTABLE_PATH`` setting.
 
 License
 =======

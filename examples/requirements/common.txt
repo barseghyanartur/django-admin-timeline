@@ -1,11 +1,2 @@
-Jinja2
-MarkupSafe
-Sphinx
-docutils
-ipdb
-ipython
-selenium==2.53.6
-
 Pillow
 python-dateutil
-radar
