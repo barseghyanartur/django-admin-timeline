@@ -8,15 +8,15 @@ by user (multiple select) and content type (multiple select) is implemented.
 
 Prerequisites
 =============
-Present
--------
+Future
+------
 Starting from ``django-admin-timeline`` 1.7:
 
 - Django 1.8, 1.9, 1.10, 1.11
 - Python 2.7, 3.4, 3.5, 3.6
 
-Past
-----
+Present
+-------
 Current version of ``django-admin-timeline`` (1.6.x) has the following
 prerequisites:
 
