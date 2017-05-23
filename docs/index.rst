@@ -36,41 +36,41 @@ Installation
 ============
 (1) Install in your virtual environment
 
-Latest stable version from PyPI:
+    Latest stable version from PyPI:
 
-.. code-block:: sh
+    .. code-block:: sh
 
-    pip install django-admin-timeline
+        pip install django-admin-timeline
 
-Latest stable version from BitBucket:
+    Latest stable version from BitBucket:
 
-.. code-block:: sh
+    .. code-block:: sh
 
-    pip install https://bitbucket.org/barseghyanartur/django-admin-timeline/get/stable.tar.gz
+        pip install https://bitbucket.org/barseghyanartur/django-admin-timeline/get/stable.tar.gz
 
-Latest stable version from GitHub:
+    Latest stable version from GitHub:
 
-.. code-block:: sh
+    .. code-block:: sh
 
-    pip install https://github.com/barseghyanartur/django-admin-timeline/archive/stable.tar.gz
+        pip install https://github.com/barseghyanartur/django-admin-timeline/archive/stable.tar.gz
 
 (2) Add ``admin_timeline`` to your ``INSTALLED_APPS`` in the
     global ``settings.py``.
 
-.. code-block:: python
+    .. code-block:: python
 
-    INSTALLED_APPS = (
-        # ...
-        'admin_timeline',
-       # ...
-    )
+        INSTALLED_APPS = (
+            # ...
+            'admin_timeline',
+           # ...
+        )
 
 (3) Collect the static files by running (see the Troubleshooting section in
     case of problems):
 
-.. code-block:: sh
+    .. code-block:: sh
 
-    ./manage.py collectstatic
+        ./manage.py collectstatic
 
 (4) Override app settings in your global ``settings`` module (see the
     ``apps.admin_timeline.defaults`` for the list of settings). As for now,
@@ -79,11 +79,11 @@ Latest stable version from GitHub:
 
 (5) Add the following lines to the global ``urls`` module:
 
-.. code-block:: python
+    .. code-block:: python
 
-    # Admin timeline URLs. Should be placed BEFORE the Django admin URLs.
-    (r'^admin/timeline/', include('admin_timeline.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+        # Admin timeline URLs. Should be placed BEFORE the Django admin URLs.
+        url(r'^admin/timeline/', include('admin_timeline.urls')),
+        url(r'^admin/', include(admin.site.urls)),
 
 Demo
 ====
@@ -104,20 +104,11 @@ app (with a quick installer) has been created (works on Ubuntu/Debian, may
 work on other Linux systems as well, although not guaranteed). Follow the
 instructions below for having the demo running within a minute.
 
-Grab the latest ``django_admin_timeline_example_app_installer.sh``:
+Grab and run the latest ``django_admin_timeline_example_app_installer.sh``:
 
 .. code-block:: sh
 
-    wget https://raw.github.com/barseghyanartur/django-admin-timeline/stable/examples/django_admin_timeline_example_app_installer.sh
-
-Assign execute rights to the installer and run the
-``django_admin_timeline_example_app_installer.sh``:
-
-.. code-block:: sh
-
-    chmod +x django_admin_timeline_example_app_installer.sh
-
-    ./django_admin_timeline_example_app_installer.sh
+    wget -O - https://raw.github.com/barseghyanartur/django-admin-timeline/stable/examples/django_admin_timeline_example_app_installer.sh | bash
 
 Open your browser and test the app.
 
@@ -131,8 +122,9 @@ If quick installer doesn't work for you, see the manual steps on running the
 
 Troubleshooting
 ===============
-If somehow static files are not collected properly (missing admin_timeline.js
-and admin_timeline.css files), install the latest stable version from source.
+If somehow static files are not collected properly (missing
+``admin_timeline.js`` and ``admin_timeline.css`` files), install the latest
+stable version from source.
 
 .. code-block:: sh
 
