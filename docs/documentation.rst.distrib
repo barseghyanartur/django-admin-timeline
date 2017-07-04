@@ -11,7 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 20
 
-   fobi
+   index
+   admin_timeline
 
 Indices and tables
 ===============================================

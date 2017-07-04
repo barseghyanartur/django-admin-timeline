@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
 
     admin_timeline.templatetags
+    admin_timeline.tests
 
 Submodules
 ----------
@@ -47,14 +48,6 @@ admin_timeline.settings module
 ------------------------------
 
 .. automodule:: admin_timeline.settings
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-admin_timeline.tests module
----------------------------
-
-.. automodule:: admin_timeline.tests
     :members:
     :undoc-members:
     :show-inheritance:
