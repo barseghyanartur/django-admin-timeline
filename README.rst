@@ -12,7 +12,7 @@ Future
 ------
 Starting from ``django-admin-timeline`` 1.7:
 
-- Django 1.8, 1.9, 1.10, 1.11
+- Django 1.8, 1.9, 1.10, 1.11, 2.0
 - Python 2.7, 3.4, 3.5, 3.6
 
 Present
@@ -20,7 +20,7 @@ Present
 Current version of ``django-admin-timeline`` (1.6.x) has the following
 prerequisites:
 
-- Django 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11
+- Django 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.0
 - Python >=2.6.8, 2.7, 3.3, 3.4, 3.5, 3.6
 
 Dropping support of Django 1.4, 1.5, 1.6 and 1.7 has been announced in

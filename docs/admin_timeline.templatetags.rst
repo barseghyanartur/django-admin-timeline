@@ -1,11 +1,11 @@
-admin_timeline.templatetags package
-===================================
+admin\_timeline\.templatetags package
+=====================================
 
 Submodules
 ----------
 
-admin_timeline.templatetags.admin_timeline_tags module
-------------------------------------------------------
+admin\_timeline\.templatetags\.admin\_timeline\_tags module
+-----------------------------------------------------------
 
 .. automodule:: admin_timeline.templatetags.admin_timeline_tags
     :members:

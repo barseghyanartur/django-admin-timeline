@@ -127,7 +127,7 @@ if versions.DJANGO_GTE_1_10:
                 'loaders': [
                     'django.template.loaders.filesystem.Loader',
                     'django.template.loaders.app_directories.Loader',
-                    'django.template.loaders.eggs.Loader',
+                    # 'django.template.loaders.eggs.Loader',
                 ],
                 'debug': DEBUG_TEMPLATE,
             }
@@ -153,7 +153,7 @@ elif versions.DJANGO_GTE_1_8:
                 'loaders': [
                     'django.template.loaders.filesystem.Loader',
                     'django.template.loaders.app_directories.Loader',
-                    'django.template.loaders.eggs.Loader',
+                    # 'django.template.loaders.eggs.Loader',
                 ],
                 'debug': DEBUG_TEMPLATE,
             }
@@ -197,7 +197,7 @@ else:
 #     'django.template.loaders.eggs.Loader',
 # )
 
-MIDDLEWARE_CLASSES = (
+_MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -337,3 +337,9 @@ if DEBUG and DEBUG_TOOLBAR:
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
+
+# Avoid code duplication
+if versions.DJANGO_GTE_1_10:
+    MIDDLEWARE = _MIDDLEWARE
+else:
+    MIDDLEWARE_CLASSES = _MIDDLEWARE

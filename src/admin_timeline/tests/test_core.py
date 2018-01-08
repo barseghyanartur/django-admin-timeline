@@ -15,7 +15,7 @@ from .data import TEST_PASSWORD, TEST_USERNAME, USERS_CREATED, TEST_USERS_DATA
 
 __title__ = 'admin_timeline.tests.test_core'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
 logger = logging.getLogger(__name__)
@@ -86,10 +86,14 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             """Custom log entry."""
 
             action_time = models.DateTimeField(_('action time'))
-            user = models.ForeignKey(User)
-            content_type = models.ForeignKey(ContentType, blank=True,
-                                             null=True)
-            object_id = models.TextField(_('object id'), blank=True,
+            user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                     on_delete=models.CASCADE)
+            content_type = models.ForeignKey(ContentType,
+                                             blank=True,
+                                             null=True,
+                                             on_delete=models.CASCADE)
+            object_id = models.TextField(_('object id'),
+                                         blank=True,
                                          null=True)
             object_repr = models.CharField(_('object repr'), max_length=200)
             action_flag = models.PositiveSmallIntegerField(_('action flag'))

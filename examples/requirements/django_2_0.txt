@@ -1,0 +1,8 @@
+-r common.txt
+-r debug.txt
+-r docs.txt
+-r test.txt
+
+Django>=2.0,<2.1
+django-debug-toolbar>=1.6,<2.0
+sqlparse==0.2.2

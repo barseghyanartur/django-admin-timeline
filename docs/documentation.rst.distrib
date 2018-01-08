@@ -1,6 +1,6 @@
 
 Documentation
-===============================================
+=============
 Screenshots are available in documentation:
 
 - PythonHosted (http://pythonhosted.org/django-admin-timeline/#documentation)
@@ -12,10 +12,11 @@ Contents:
    :maxdepth: 20
 
    index
+   changelog
    admin_timeline
 
 Indices and tables
-===============================================
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`

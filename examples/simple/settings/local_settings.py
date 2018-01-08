@@ -7,7 +7,7 @@ DEBUG = True
 DEBUG_TOOLBAR = not True
 # TEMPLATE_DEBUG = DEBUG
 DEBUG_TEMPLATE = DEBUG
-DEV = True
+DEV = False
 
 DATABASES = {
     'default': {
@@ -37,7 +37,7 @@ ADMIN_TIMELINE_NUMBER_OF_ENTRIES_PER_PAGE = 4
 
 os.environ.setdefault(
     'ADMIN_TIMELINE_SOURCE_PATH',
-    '/home/foreverchild/bbrepos/django_admin_timeline/src'
+    '/home/artur/bbrepos/django-admin-timeline-dev/src'
 )
 
 FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'

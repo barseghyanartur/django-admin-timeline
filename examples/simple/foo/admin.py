@@ -26,55 +26,47 @@ class FooItemBaseAdmin(admin.ModelAdmin):
         })
     )
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         app_label = _('Foo item')
 
 
+@admin.register(FooItem)
 class FooItemAdmin(FooItemBaseAdmin):
     """FooItem admin."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         app_label = _('Foo item')
 
 
-admin.site.register(FooItem, FooItemAdmin)
-
-
+@admin.register(Foo2Item)
 class Foo2ItemAdmin(FooItemBaseAdmin):
     """Foo2Item admin."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         app_label = _('Foo 2 item')
 
 
-admin.site.register(Foo2Item, Foo2ItemAdmin)
-
-
+@admin.register(Foo3Item)
 class Foo3ItemAdmin(FooItemBaseAdmin):
     """Foo3Item admin."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         app_label = _('Foo 3 item')
 
 
-admin.site.register(Foo3Item, Foo3ItemAdmin)
-
-
+@admin.register(Foo4Item)
 class Foo4ItemAdmin(FooItemBaseAdmin):
     """Foo4Item admin."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         app_label = _('Foo 4 item')
-
-
-admin.site.register(Foo4Item, Foo4ItemAdmin)

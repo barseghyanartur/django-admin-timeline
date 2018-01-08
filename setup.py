@@ -1,6 +1,8 @@
 import os
 from setuptools import setup, find_packages
 
+version = '1.6.2'
+
 try:
     readme = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
     readme = readme.replace('.. code-block:: none', '.. code-block::')
@@ -21,8 +23,6 @@ templates = [os.path.join(template_dir, f) for f in os.listdir(template_dir)]
 static_dir = "src/admin_timeline/static"
 static_files = [os.path.join(static_dir, f) for f in os.listdir(static_dir)]
 
-version = '1.6.1'
-
 setup(
     name='django-admin-timeline',
     version=version,
@@ -31,7 +31,6 @@ setup(
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
@@ -59,7 +58,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'six>=1.9',
-        'django>=1.4',
+        # 'django>=1.4',
         'django-nine>=0.1.10'
     ],
     tests_require=[

@@ -23,8 +23,8 @@ class FooItemBase(models.Model):
                                         null=True, auto_now=True,
                                         editable=False)
 
-    class Meta:
-        """Meta."""
+    class Meta(object):
+        """Options."""
 
         abstract = True
         verbose_name = _("Foo item")
@@ -37,7 +37,7 @@ class FooItemBase(models.Model):
 class FooItem(FooItemBase):
     """FooItem."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         verbose_name = _("Foo item")
@@ -47,7 +47,7 @@ class FooItem(FooItemBase):
 class Foo2Item(FooItemBase):
     """Foo2Item."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         verbose_name = _("Foo 2 item")
@@ -57,7 +57,7 @@ class Foo2Item(FooItemBase):
 class Foo3Item(FooItemBase):
     """Foo3Item."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         verbose_name = _("Foo 3 item")
@@ -67,7 +67,7 @@ class Foo3Item(FooItemBase):
 class Foo4Item(FooItemBase):
     """Foo4Item."""
 
-    class Meta:
+    class Meta(object):
         """Meta."""
 
         verbose_name = _("Foo 4 item")

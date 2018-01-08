@@ -4,7 +4,6 @@ import json
 from django.contrib.admin.models import LogEntry
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
-# from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.template.defaultfilters import date as date_format
@@ -29,7 +28,7 @@ else:
 
 __title__ = 'admin_timeline.views'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('log',)
 
@@ -115,7 +114,7 @@ def log(request, template_name=TEMPLATE_NAME,
     start = (page - 1) * NUMBER_OF_ENTRIES_PER_PAGE
     end = page * NUMBER_OF_ENTRIES_PER_PAGE
 
-    # Getting admin log entires taking page number into consideration.
+    # Getting admin log entries taking page number into consideration.
     log_entries = LogEntry.objects.all().select_related('content_type', 'user')
 
     start_date = _get_date_from_string(request.POST.get('start_date'))

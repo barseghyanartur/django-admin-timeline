@@ -1,35 +1,35 @@
-admin_timeline.tests package
-============================
+admin\_timeline\.tests package
+==============================
 
 Submodules
 ----------
 
-admin_timeline.tests.base module
---------------------------------
+admin\_timeline\.tests\.base module
+-----------------------------------
 
 .. automodule:: admin_timeline.tests.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-admin_timeline.tests.data module
---------------------------------
+admin\_timeline\.tests\.data module
+-----------------------------------
 
 .. automodule:: admin_timeline.tests.data
     :members:
     :undoc-members:
     :show-inheritance:
 
-admin_timeline.tests.helpers module
------------------------------------
+admin\_timeline\.tests\.helpers module
+--------------------------------------
 
 .. automodule:: admin_timeline.tests.helpers
     :members:
     :undoc-members:
     :show-inheritance:
 
-admin_timeline.tests.test_core module
--------------------------------------
+admin\_timeline\.tests\.test\_core module
+-----------------------------------------
 
 .. automodule:: admin_timeline.tests.test_core
     :members:

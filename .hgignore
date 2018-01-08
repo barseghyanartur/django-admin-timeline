@@ -8,6 +8,7 @@ syntax: regexp
 ^geckodriver\.log$
 ^ghostdriver\.log$
 ^htmlcov/
+\.idea/
 \.py,cover
 
 ^examples/db/

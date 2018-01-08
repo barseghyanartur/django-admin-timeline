@@ -10,6 +10,7 @@
 /ghostdriver.log
 /htmlcov/
 *.py,cover
+.idea/
 
 /examples/db/
 /examples/tmp/

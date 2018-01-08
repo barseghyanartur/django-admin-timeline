@@ -1,16 +1,20 @@
 from django import template
-from django.core.urlresolvers import reverse, NoReverseMatch
 
-from nine.versions import DJANGO_GTE_1_7
+from nine.versions import DJANGO_GTE_1_7, DJANGO_GTE_1_10
 
 if DJANGO_GTE_1_7:
     from django.contrib.admin.utils import quote
 else:
     from django.contrib.admin.util import quote
 
+if DJANGO_GTE_1_10:
+    from django.urls import reverse, NoReverseMatch
+else:
+    from django.core.urlresolvers import reverse, NoReverseMatch
+
 __title__ = 'admin_timeline.templatetags.admin_timeline_tags'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'assign',
