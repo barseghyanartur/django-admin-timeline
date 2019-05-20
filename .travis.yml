@@ -36,12 +36,13 @@ matrix:
   - env: TOX_ENV=py37-django22
     python: 3.7
 
-install: pip install -r examples/requirements/test.txt
-
-before_script:
+install:
   - cd /home/travis/
   - wget http://chromedriver.storage.googleapis.com/2.42/chromedriver_linux64.zip
   - unzip /home/travis/chromedriver_linux64.zip -d .
+  - pip install -r examples/requirements/test.txt
+
+before_script:
   - export CHROME_BIN=/home/travis/chromedriver
   - sleep 2
 
