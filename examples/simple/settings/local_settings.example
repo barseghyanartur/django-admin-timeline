@@ -40,5 +40,12 @@ os.environ.setdefault(
     '/home/user/repos/django_admin_timeline/src'
 )
 
-FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
+# FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
 # PHANTOM_JS_EXECUTABLE_PATH = ''
+
+CHROME_DRIVER_EXECUTABLE_PATH = '/usr/local/share/chromedriver'
+from selenium import webdriver
+CHROME_DRIVER_OPTIONS = webdriver.ChromeOptions()
+CHROME_DRIVER_OPTIONS.add_argument('-headless')
+CHROME_DRIVER_OPTIONS.add_argument('-no-sandbox')
+CHROME_DRIVER_OPTIONS.add_argument('-single-process')

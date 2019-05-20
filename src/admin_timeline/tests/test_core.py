@@ -189,11 +189,26 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
         @classmethod
         def setUpClass(cls):
+            chrome_driver_path = getattr(
+                settings,
+                'CHROME_DRIVER_EXECUTABLE_PATH',
+                None
+            )
+            chrome_driver_options = getattr(
+                settings,
+                'CHROME_DRIVER_OPTIONS',
+                None
+            )
             firefox_bin_path = getattr(settings, 'FIREFOX_BIN_PATH', None)
             phantom_js_executable_path = getattr(
                 settings, 'PHANTOM_JS_EXECUTABLE_PATH', None
             )
-            if phantom_js_executable_path is not None:
+            if chrome_driver_path is not None:
+                cls.driver = webdriver.Chrome(
+                    executable_path=chrome_driver_path,
+                    chrome_options=chrome_driver_options
+                )
+            elif phantom_js_executable_path is not None:
                 if phantom_js_executable_path:
                     cls.driver = webdriver.PhantomJS(
                         executable_path=phantom_js_executable_path
@@ -291,6 +306,12 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
             container = self.driver.find_element_by_id('admin-timeline')
             self.assertTrue(container is not None)
             workflow.append(container)
+
+            WebDriverWait(self.driver, timeout=5).until(
+                lambda driver: driver.find_element_by_xpath(
+                    '//li[@class="date-entry"]'
+                )
+            )
 
             item = self.driver.find_element_by_xpath(
                 '//li[@class="date-entry"]'

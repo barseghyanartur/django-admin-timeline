@@ -237,6 +237,14 @@ INSTALLED_APPS = (
     'foo',  # Example app to generate test data
 )
 
+CHROME_DRIVER_EXECUTABLE_PATH = os.environ.get('CHROME_BIN', None)
+
+from selenium import webdriver
+CHROME_DRIVER_OPTIONS = webdriver.ChromeOptions()
+CHROME_DRIVER_OPTIONS.add_argument('-headless')
+CHROME_DRIVER_OPTIONS.add_argument('-no-sandbox')
+CHROME_DRIVER_OPTIONS.add_argument('-single-process')
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

@@ -40,5 +40,14 @@ os.environ.setdefault(
     '/home/artur/bbrepos/django-admin-timeline-dev/src'
 )
 
-FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
+CHROME_DRIVER_EXECUTABLE_PATH = os.environ.get('CHROME_BIN', None)
+if not CHROME_DRIVER_EXECUTABLE_PATH:
+    CHROME_DRIVER_EXECUTABLE_PATH = '/usr/local/share/chromedriver'
+
+# CHROME_DRIVER_OPTIONS = [
+#     '-headless',  # '--headless' if using chrome instead of firefox
+#     '-no-sandbox',
+#     '-single-process',
+# ]
+# FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
 # PHANTOM_JS_EXECUTABLE_PATH = ''

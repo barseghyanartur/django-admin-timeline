@@ -11,6 +11,7 @@
 /htmlcov/
 *.py,cover
 .idea/
+.pytest_cache/
 
 /examples/db/
 /examples/tmp/
