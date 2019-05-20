@@ -37,10 +37,9 @@ matrix:
     python: 3.7
 
 install:
-  - pip install -r examples/requirements/test.txt
-  - cd /home/travis/
   - wget http://chromedriver.storage.googleapis.com/2.42/chromedriver_linux64.zip
-  - unzip /home/travis/chromedriver_linux64.zip -d .
+  - unzip chromedriver_linux64.zip -d /home/travis/
+  - pip install -r examples/requirements/test.txt
 
 before_script:
   - export CHROME_BIN=/home/travis/chromedriver
