@@ -33,9 +33,9 @@ setup(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Intended Audience :: Developers",
@@ -51,14 +51,13 @@ setup(
     url='https://github.com/barseghyanartur/django-admin-timeline',
     package_dir={'': 'src'},
     packages=find_packages(where='./src'),
-    license='GPL 2.0/LGPL 2.1',
+    license='GPL-2.0-only OR LGPL-2.1-or-later',
     package_data={
         'admin_timeline': templates + static_files
     },
     include_package_data=True,
     install_requires=[
-        'six>=1.9',
-        # 'django>=1.4',
+        'six>=1.7.3',
         'django-nine>=0.1.10'
     ],
     tests_require=[

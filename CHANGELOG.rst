@@ -17,10 +17,12 @@ are used for versioning (schema follows below):
 
 1.7
 ---
-yyyy-mm-dd
+2019-05-20
 
 - Drop support for Python 3.4.
-- Django 2.1 and 2.2 support.
+- Tested against Python 3.7.
+- Added Django 2.1 and 2.2 support.
+- Dropping support for Django 1.9 and 1.10.
 
 1.6.2
 -----
