@@ -102,17 +102,19 @@ def log(request, template_name=TEMPLATE_NAME,
             post['users'] = post.pop('users[]')
         elif 'users' in post:
             post['users'] = post.pop('users')
-            if SIMPLE_FILTER_FORM:
-                if post['users']:
-                    post['users'] = post['users'][0]
+
+        if SIMPLE_FILTER_FORM:
+            if 'users' in post and post['users']:
+                post['users'] = post['users'][0]
 
         if 'content_types[]' in post:
             post['content_types'] = post.pop('content_types[]')
         elif 'content_types' in post:
             post['content_types'] = post.pop('content_types')
-            if SIMPLE_FILTER_FORM:
-                if post['content_types']:
-                    post['content_types'] = post['content_types'][0]
+
+        if SIMPLE_FILTER_FORM:
+            if 'content_types' in post and post['content_types']:
+                post['content_types'] = post['content_types'][0]
 
         filter_form = FilterForm(post)
         if filter_form.is_valid():
@@ -138,6 +140,7 @@ def log(request, template_name=TEMPLATE_NAME,
                     ]
                 else:
                     content_types = []
+
         else:
             pass  # Anything to do here?
     else:
