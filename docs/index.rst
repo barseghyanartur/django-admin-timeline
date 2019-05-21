@@ -6,16 +6,16 @@ feature `Daily progress`, but then has a nicer templates and infinite scroll
 implemented. Actions are broken up by day, then by action. Filtering
 by user (multiple select) and content type (multiple select) is implemented.
 
-.. image:: https://img.shields.io/pypi/v/django-elasticsearch-dsl-drf.svg
-   :target: https://pypi.python.org/pypi/django-elasticsearch-dsl-drf
+.. image:: https://img.shields.io/pypi/v/django-admin-timeline.svg
+   :target: https://pypi.python.org/pypi/django-admin-timeline
    :alt: PyPI Version
 
-.. image:: https://img.shields.io/travis/barseghyanartur/django-elasticsearch-dsl-drf/master.svg
-   :target: http://travis-ci.org/barseghyanartur/django-elasticsearch-dsl-drf
+.. image:: https://img.shields.io/travis/barseghyanartur/django-admin-timeline/master.svg
+   :target: http://travis-ci.org/barseghyanartur/django-admin-timeline
    :alt: Build Status
 
 .. image:: https://img.shields.io/badge/license-GPL--2.0--only%20OR%20LGPL--2.1--or--later-blue.svg
-   :target: https://github.com/barseghyanartur/django-elasticsearch-dsl-drf/#License
+   :target: https://github.com/barseghyanartur/django-admin-timeline/#License
    :alt: GPL-2.0-only OR LGPL-2.1-or-later
 
 Prerequisites
@@ -153,6 +153,13 @@ After following all installation steps, you should  be able to access the
 
 An example application is available. See the `example directory
 <https://github.com/barseghyanartur/django-admin-timeline/tree/stable/examples>`_.
+
+Configuration and tweaks
+========================
+If you have way to many log entries and fetching all content types and users
+isn't an option, set the ``ADMIN_TIMELINE_SIMPLE_FILTER_FORM`` to ``True``
+in your settings. It will then change your multiple choice widgets into
+plain char fields (comma separated ids are allowed).
 
 Testing
 =======
