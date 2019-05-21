@@ -24,6 +24,7 @@ syntax: regexp
 ^dist/
 ^src/admin_timeline\.egg-info
 ^src/django_admin_timeline\.egg-info
+^examples/simple/settings/local_settings\.py
 local_settings\.py
 MANIFEST\.in~
 ^\.tox/
