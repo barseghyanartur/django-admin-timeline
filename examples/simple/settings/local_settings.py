@@ -4,7 +4,7 @@ import os
 from .core import PROJECT_DIR
 
 DEBUG = True
-DEBUG_TOOLBAR = not True
+DEBUG_TOOLBAR = True
 # TEMPLATE_DEBUG = DEBUG
 DEBUG_TEMPLATE = DEBUG
 DEV = False
@@ -51,3 +51,4 @@ if not CHROME_DRIVER_EXECUTABLE_PATH:
 # ]
 # FIREFOX_BIN_PATH = '/usr/lib/firefox47/firefox'
 # PHANTOM_JS_EXECUTABLE_PATH = ''
+# ADMIN_TIMELINE_SIMPLE_FILTER_FORM = True

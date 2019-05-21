@@ -154,6 +154,13 @@ After following all installation steps, you should  be able to access the
 An example application is available. See the `example directory
 <https://github.com/barseghyanartur/django-admin-timeline/tree/stable/examples>`_.
 
+Configuration and tweaks
+========================
+If you have way to many log entries and fetching all content types and users
+isn't an option, set the ``ADMIN_TIMELINE_SIMPLE_FILTER_FORM`` to ``True``
+in your settings. It will then change your multiple choice widgets into
+plain char fields (comma separated ids are allowed).
+
 Testing
 =======
 Project is covered by test (functional- and browser-tests).

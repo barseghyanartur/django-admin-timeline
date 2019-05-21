@@ -1,3 +1,4 @@
+import ast
 import datetime
 import json
 
@@ -18,7 +19,8 @@ from .forms import FilterForm
 from .settings import (
     NUMBER_OF_ENTRIES_PER_PAGE,
     SINGLE_LOG_ENTRY_DATE_FORMAT,
-    LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT
+    LOG_ENTRIES_DAY_HEADINGS_DATE_FORMAT,
+    SIMPLE_FILTER_FORM,
 )
 
 if versions.DJANGO_GTE_1_10:
@@ -28,7 +30,7 @@ else:
 
 __title__ = 'admin_timeline.views'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2018 Artur Barseghyan'
+__copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('log',)
 
@@ -98,13 +100,44 @@ def log(request, template_name=TEMPLATE_NAME,
         post = dict(request.POST)
         if 'users[]' in post:
             post['users'] = post.pop('users[]')
+        elif 'users' in post:
+            post['users'] = post.pop('users')
+            if SIMPLE_FILTER_FORM:
+                if post['users']:
+                    post['users'] = post['users'][0]
+
         if 'content_types[]' in post:
             post['content_types'] = post.pop('content_types[]')
+        elif 'content_types' in post:
+            post['content_types'] = post.pop('content_types')
+            if SIMPLE_FILTER_FORM:
+                if post['content_types']:
+                    post['content_types'] = post['content_types'][0]
 
         filter_form = FilterForm(post)
         if filter_form.is_valid():
             users = filter_form.cleaned_data['users']
             content_types = filter_form.cleaned_data['content_types']
+            if SIMPLE_FILTER_FORM:
+                if users:
+                    users = [
+                        int(_u.strip())
+                        for _u
+                        in users.split(',')
+                        if _u.strip()
+                    ]
+                else:
+                    users = []
+
+                if content_types:
+                    content_types = [
+                        int(_c.strip())
+                        for _c
+                        in content_types.split(',')
+                        if _c.strip()
+                    ]
+                else:
+                    content_types = []
         else:
             pass  # Anything to do here?
     else:

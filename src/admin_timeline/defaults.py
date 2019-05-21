@@ -1,6 +1,6 @@
 __title__ = 'admin_timeline.defaults'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2018 Artur Barseghyan'
+__copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'NUMBER_OF_ENTRIES_PER_PAGE',
@@ -20,3 +20,7 @@ SINGLE_LOG_ENTRY_DATE_FORMAT = "g:i:s A"
 
 # Personal debug mode, which has nothing to do with global settings.DEBUG
 DEBUG = False
+
+# Simple filter form - do not use drop downs. Use text input instead.
+# This might be useful in case you have millions of rows.
+SIMPLE_FILTER_FORM = False

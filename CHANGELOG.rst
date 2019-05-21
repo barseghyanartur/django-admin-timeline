@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+1.7.1
+-----
+2019-05-21
+
+- Added `ADMIN_TIMELINE_SIMPLE_FILTER_FORM` setting for to be used when
+  you have way to many log entries and fetching all content types and users
+  isn't an option.
+
 1.7
 ---
 2019-05-20

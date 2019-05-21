@@ -334,7 +334,7 @@ if DEV:
 
 if DEBUG and DEBUG_TOOLBAR:
     # debug_toolbar
-    MIDDLEWARE_CLASSES += (
+    _MIDDLEWARE += (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 

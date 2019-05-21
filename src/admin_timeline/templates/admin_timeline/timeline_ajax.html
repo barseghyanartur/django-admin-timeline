@@ -27,13 +27,13 @@
         <div class="inner-block">
         {% get_full_name entry.user as user_full_name %}
         {% if entry.is_deletion %}
-            {% blocktrans with user_full_name as entry_user and entry.object_repr as entry_object_repr and entry|resolve_admin_url as entry_admin_url %}
-            <h3>{{ entry_user }} <span>{{ entry_action }} an</span> {{ entry_content_type }}</h3>
+            {% blocktrans with entry.content_type.id as entry_content_type_id and entry.user.id as entry_user_id and user_full_name as entry_user and entry.object_repr as entry_object_repr and entry|resolve_admin_url as entry_admin_url %}
+            <h3>{{ entry_user }} ({{ entry_user_id }}) <span>{{ entry_action }} an</span> {{ entry_content_type }} ({{ entry_content_type_id }})</h3>
             {{ entry_object_repr }}
             {% endblocktrans %}
         {% else %}
-            {% blocktrans with user_full_name as entry_user and entry.object_repr as entry_object_repr and entry|resolve_admin_url as entry_admin_url and entry.change_message as entry_change_message %}
-            <h3>{{ entry_user }} <span>{{ entry_action }} an</span> {{ entry_content_type }}</h3>
+            {% blocktrans with entry.content_type.id as entry_content_type_id and entry.user.id as entry_user_id and user_full_name as entry_user and entry.object_repr as entry_object_repr and entry|resolve_admin_url as entry_admin_url and entry.change_message as entry_change_message %}
+            <h3>{{ entry_user }} ({{ entry_user_id }}) <span>{{ entry_action }} an</span> {{ entry_content_type }} ({{ entry_content_type_id }})</h3>
             <a href="{{ entry_admin_url }}">{{ entry_object_repr }}<span class="change">{{ entry_change_message }}</span></a>
             {% endblocktrans %}
         {% endif %}
