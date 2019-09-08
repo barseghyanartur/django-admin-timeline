@@ -10,6 +10,10 @@ by user (multiple select) and content type (multiple select) is implemented.
    :target: https://pypi.python.org/pypi/django-admin-timeline
    :alt: PyPI Version
 
+.. image:: https://img.shields.io/pypi/pyversions/django-admin-timeline.svg
+    :target: https://pypi.python.org/pypi/django-admin-timeline/
+    :alt: Supported Python versions
+
 .. image:: https://img.shields.io/travis/barseghyanartur/django-admin-timeline/master.svg
    :target: http://travis-ci.org/barseghyanartur/django-admin-timeline
    :alt: Build Status
@@ -18,18 +22,22 @@ by user (multiple select) and content type (multiple select) is implemented.
    :target: https://github.com/barseghyanartur/django-admin-timeline/#License
    :alt: GPL-2.0-only OR LGPL-2.1-or-later
 
+.. image:: https://coveralls.io/repos/github/barseghyanartur/django-admin-timeline/badge.svg?branch=master
+    :target: https://coveralls.io/github/barseghyanartur/django-admin-timeline?branch=master
+    :alt: Coverage
+
 Prerequisites
 =============
-Future
+Present
 ------
 Starting from ``django-admin-timeline`` 1.7:
 
 - Django 1.8, 1.9, 1.10, 1.11, 2.0, 2.1 and 2.2
 - Python 2.7, 3.5, 3.6 and 3.7
 
-Present
+Past
 -------
-Current version of ``django-admin-timeline`` (1.6.x) has the following
+In past, as of version 1.6.x, ``django-admin-timeline`` had the following
 prerequisites:
 
 - Django 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.0
