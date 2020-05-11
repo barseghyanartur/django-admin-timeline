@@ -12,9 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
-from nine import versions
-
-from .compat import TEMPLATE_NAME, TEMPLATE_NAME_AJAX
+from .compat import TEMPLATE_NAME, TEMPLATE_NAME_AJAX, django_versions
 from .forms import FilterForm
 from .settings import (
     NUMBER_OF_ENTRIES_PER_PAGE,
@@ -23,7 +21,7 @@ from .settings import (
     SIMPLE_FILTER_FORM,
 )
 
-if versions.DJANGO_GTE_1_10:
+if django_versions.DJANGO_GTE_1_10:
     from django.shortcuts import render
 else:
     from django.shortcuts import render_to_response
