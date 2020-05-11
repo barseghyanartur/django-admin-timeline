@@ -1,13 +1,13 @@
 from django import template
 
-from nine.versions import DJANGO_GTE_1_7, DJANGO_GTE_1_10
+from ..compat import django_versions
 
-if DJANGO_GTE_1_7:
+if django_versions.DJANGO_GTE_1_7:
     from django.contrib.admin.utils import quote
 else:
     from django.contrib.admin.util import quote
 
-if DJANGO_GTE_1_10:
+if django_versions.DJANGO_GTE_1_10:
     from django.urls import reverse, NoReverseMatch
 else:
     from django.core.urlresolvers import reverse, NoReverseMatch

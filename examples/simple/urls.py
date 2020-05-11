@@ -4,7 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from nine.versions import DJANGO_GTE_2_0
+from django_nine.versions import DJANGO_GTE_2_0
 
 admin.autodiscover()
 

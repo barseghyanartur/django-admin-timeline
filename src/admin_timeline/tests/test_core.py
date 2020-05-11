@@ -44,7 +44,10 @@ if os.environ.get("DJANGO_SETTINGS_MODULE", None):
     # ************************************************************************
     # **************** Safe User import for Django > 1.5, < 1.8 **************
     # ************************************************************************
-    from nine.user import User
+    try:
+        from django_nine.user import User
+    except ImportError:
+        from nine.user import User
 
     from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
 
