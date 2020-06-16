@@ -1,4 +1,3 @@
-import ast
 import datetime
 import json
 
@@ -192,7 +191,7 @@ def log(request, template_name=TEMPLATE_NAME,
         }
 
         # Rendering HTML for an AJAX driven request
-        if versions.DJANGO_GTE_1_10:
+        if django_versions.DJANGO_GTE_1_10:
             html = render_to_string(
                 template_name_ajax,
                 context,
@@ -230,7 +229,7 @@ def log(request, template_name=TEMPLATE_NAME,
         'title': _("Timeline")  # For template breadcrumbs, etc.
     }
 
-    if versions.DJANGO_GTE_1_10:
+    if django_versions.DJANGO_GTE_1_10:
         return render(request, template_name, context)
     else:
         return render_to_response(
