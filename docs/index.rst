@@ -1,10 +1,10 @@
 =====================
 django-admin-timeline
 =====================
-A Facebook-like timeline app for Django admin. It's very similar to built-in
-feature `Daily progress`, but then has a nicer templates and infinite scroll
-implemented. Actions are broken up by day, then by action. Filtering
-by user (multiple select) and content type (multiple select) is implemented.
+A Facebook-like timeline app for Django admin. It's very similar to built-in 
+feature Daily progress, but has nicer templates and infinite scroll. Actions 
+are broken up by day, then by action. It's possible to filter actions by 
+user (multiple select) and content type (multiple select).
 
 .. image:: https://img.shields.io/pypi/v/django-admin-timeline.svg
    :target: https://pypi.python.org/pypi/django-admin-timeline
