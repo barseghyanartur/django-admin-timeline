@@ -29,28 +29,18 @@ user (multiple select) and content type (multiple select).
 Prerequisites
 =============
 Present
-------
-Starting from ``django-admin-timeline`` 1.7:
+-------
+Starting from ``django-admin-timeline`` 1.8:
 
-- Django 1.8, 1.9, 1.10, 1.11, 2.0, 2.1 and 2.2
-- Python 2.7, 3.5, 3.6 and 3.7
+- Django 2.2, 3.0 and 3.1
+- Python 3.6, 3.7 and 3.8
 
 Past
--------
-In past, as of version 1.6.x, ``django-admin-timeline`` had the following
-prerequisites:
+----
+In past, as of version 1.7.x, ``django-admin-timeline`` still worked on:
 
-- Django 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.0
-- Python 2.7, 3.3, 3.4, 3.5, 3.6
-
-Dropping support of Django 1.4, 1.5, 1.6 and 1.7 has been announced in
-version 1.6. As of 1.6 everything is still backwards compatible with
-versions 1.4, 1.5, 1.6 and 1.7, but in future versions compatibility with
-these versions will be wiped out.
-
-Dropping support of Python 2.6 and 3.3 has been announced in version 1.6.
-As of 1.6 everything is still backwards compatible with Python 2.6 and 3.3,
-but in future versions compatibility with these versions will be wiped out.
+- Django 1.11, 2.0
+- Python 2.7, 3.5
 
 Installation
 ============
