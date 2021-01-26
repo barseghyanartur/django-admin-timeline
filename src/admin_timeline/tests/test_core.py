@@ -3,11 +3,35 @@ import os
 import random
 import unittest
 
+from django.conf import settings
+from django.contrib.admin.models import (
+    LogEntry,
+    ADDITION,
+    # CHANGE,
+    # DELETION
+)
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.db import models, IntegrityError
+from django.test import LiveServerTestCase
+from django.utils.timezone import make_aware
+
+try:
+    from django.utils.text import slugify
+except ImportError:
+    from django.template.defaultfilters import slugify
+
 import pytest
-
 import radar
-
 from six import text_type
+
+
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.support.wait import WebDriverWait
+
+
+from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
 
 from .helpers import _, log_info
 from .base import NUM_ITEMS, WORDS, SENTENCES, change_date
@@ -20,309 +44,279 @@ __license__ = 'GPL 2.0/LGPL 2.1'
 
 logger = logging.getLogger(__name__)
 
+# ************************************************************************
+# **************** Safe User import for Django > 1.5, < 1.8 **************
+# ************************************************************************
 
-# Skipping from non-Django tests.
-if os.environ.get("DJANGO_SETTINGS_MODULE", None):
 
-    from django.conf import settings
+def create_users():
+    if not USERS_CREATED:
 
-    try:
-        from django.utils.text import slugify
-    except ImportError:
-        from django.template.defaultfilters import slugify
+        for user_data_dict in TEST_USERS_DATA:
+            user = User()
 
-    from django.contrib.admin.models import (
-        LogEntry,
-        ADDITION,
-        # CHANGE,
-        # DELETION
-    )
-    from django.contrib.auth.models import User
-    from django.db import models, IntegrityError
-    from django.contrib.contenttypes.models import ContentType
+            for prop, value in user_data_dict.items():
+                setattr(user, prop, value)
 
-    # ************************************************************************
-    # **************** Safe User import for Django > 1.5, < 1.8 **************
-    # ************************************************************************
-    try:
-        from django_nine.user import User
-    except ImportError:
-        from nine.user import User
+            user.set_password(TEST_PASSWORD)
+            try:
+                user.save()
+            except IntegrityError as err:
+                logger.debug("{0} {1}".format(err, user))
+            except Exception as err:
+                logger.debug("{0} {1}".format(err, user))
 
-    from foo.models import FooItem, Foo2Item, Foo3Item, Foo4Item
+MODEL_FACTORY = (
+    FooItem,
+    Foo2Item,
+    Foo3Item,
+    Foo4Item
+)
 
-    def create_users():
-        if not USERS_CREATED:
+CHANGE_MESSAGE_FACTORY = (
+    'Changed title',
+    'Changed slug',
+    'Changed body',
+    'Changed date_published',
+)
 
-            for user_data_dict in TEST_USERS_DATA:
-                user = User()
 
-                for prop, value in user_data_dict.items():
-                    setattr(user, prop, value)
+def generate_data(num_items=NUM_ITEMS):
+    create_users()
 
-                user.set_password(TEST_PASSWORD)
-                try:
-                    user.save()
-                except IntegrityError as err:
-                    logger.debug("{0} {1}".format(err, user))
-                except Exception as err:
-                    logger.debug("{0} {1}".format(err, user))
+    class CustomLogEntry(models.Model):
+        """Custom log entry."""
 
-    MODEL_FACTORY = (
-        FooItem,
-        Foo2Item,
-        Foo3Item,
-        Foo4Item
-    )
-
-    CHANGE_MESSAGE_FACTORY = (
-        'Changed title',
-        'Changed slug',
-        'Changed body',
-        'Changed date_published',
-    )
-
-    def generate_data(num_items=NUM_ITEMS):
-        create_users()
-
-        class CustomLogEntry(models.Model):
-            """Custom log entry."""
-
-            action_time = models.DateTimeField(_('action time'))
-            user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                     on_delete=models.CASCADE)
-            content_type = models.ForeignKey(ContentType,
-                                             blank=True,
-                                             null=True,
-                                             on_delete=models.CASCADE)
-            object_id = models.TextField(_('object id'),
+        action_time = models.DateTimeField(_('action time'))
+        user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.CASCADE)
+        content_type = models.ForeignKey(ContentType,
                                          blank=True,
-                                         null=True)
-            object_repr = models.CharField(_('object repr'), max_length=200)
-            action_flag = models.PositiveSmallIntegerField(_('action flag'))
-            change_message = models.TextField(_('change message'), blank=True)
+                                         null=True,
+                                         on_delete=models.CASCADE)
+        object_id = models.TextField(_('object id'),
+                                     blank=True,
+                                     null=True)
+        object_repr = models.CharField(_('object repr'), max_length=200)
+        action_flag = models.PositiveSmallIntegerField(_('action flag'))
+        change_message = models.TextField(_('change message'), blank=True)
 
-            class Meta(object):
-                """Class meta."""
+        class Meta(object):
+            """Class meta."""
 
-                db_table = LogEntry._meta.db_table
+            db_table = LogEntry._meta.db_table
 
-        words = WORDS[:]
+    words = WORDS[:]
 
-        users = User.objects.all()[:]
+    users = User.objects.all()[:]
 
-        random_date = radar.random_datetime()
+    random_date = make_aware(radar.random_datetime())
 
-        for index in range(num_items):
-            # Saving an item to database
-            foo_item_model_cls = MODEL_FACTORY[
-                random.randint(0, len(MODEL_FACTORY) - 1)
-            ]
-            item = foo_item_model_cls()
-            random_name = words[random.randint(0, len(words) - 1)]
+    for index in range(num_items):
+        # Saving an item to database
+        foo_item_model_cls = MODEL_FACTORY[
+            random.randint(0, len(MODEL_FACTORY) - 1)
+        ]
+        item = foo_item_model_cls()
+        random_name = words[random.randint(0, len(words) - 1)]
 
-            item.title = text_type(random_name).capitalize()
-            item.body = text_type(
-                SENTENCES[random.randint(0, len(SENTENCES) - 1)]
-            )
+        item.title = text_type(random_name).capitalize()
+        item.body = text_type(
+            SENTENCES[random.randint(0, len(SENTENCES) - 1)]
+        )
 
-            item.slug = slugify(item.title)
-            random_date = radar.random_datetime() \
-                if change_date() \
-                else random_date
-            item.date_published = random_date
+        item.slug = slugify(item.title)
 
-            try:
-                item.save()
-                words.remove(random_name)
+        if change_date():
+            random_date = make_aware(radar.random_datetime())
 
-                if 0 == len(words):
-                    words = WORDS[:]
+        item.date_published = random_date
 
-            except Exception as err:
-                logger.debug(err)
+        try:
+            item.save()
+            words.remove(random_name)
 
-            # Create an item with content type
-            try:
-                # Creating a ``LogEntry`` for the item created.
-                log_entry = CustomLogEntry()
-                log_entry.action_time = item.date_published
-                log_entry.user = users[random.randint(0, len(users) - 1)]
-                log_entry.content_type = ContentType._default_manager \
-                                                    .get_for_model(
-                                                        foo_item_model_cls
-                                                    )
-                log_entry.object_id = item.pk
-                log_entry.object_repr = text_type(item)
+            if 0 == len(words):
+                words = WORDS[:]
 
-                log_entry.action_flag = ADDITION
-                log_entry.save()
-            except Exception as err:
-                logger.debug(err)
+        except Exception as err:
+            logger.debug(err)
 
-            # Create an item without content type
-            try:
-                # Creating a ``LogEntry`` for the item created.
-                log_entry = CustomLogEntry()
-                log_entry.action_time = item.date_published
-                log_entry.user = users[random.randint(0, len(users) - 1)]
-                log_entry.object_repr = text_type(item)
+        # Create an item with content type
+        try:
+            # Creating a ``LogEntry`` for the item created.
+            log_entry = CustomLogEntry()
+            log_entry.action_time = item.date_published
+            log_entry.user = users[random.randint(0, len(users) - 1)]
+            log_entry.content_type = ContentType._default_manager \
+                                                .get_for_model(
+                                                    foo_item_model_cls
+                                                )
+            log_entry.object_id = item.pk
+            log_entry.object_repr = text_type(item)
 
-                log_entry.action_flag = ADDITION
-                log_entry.save()
-            except Exception as err:
-                logger.debug(err)
+            log_entry.action_flag = ADDITION
+            log_entry.save()
+        except Exception as err:
+            logger.debug(err)
+
+        # Create an item without content type
+        try:
+            # Creating a ``LogEntry`` for the item created.
+            log_entry = CustomLogEntry()
+            log_entry.action_time = item.date_published
+            log_entry.user = users[random.randint(0, len(users) - 1)]
+            log_entry.object_repr = text_type(item)
+
+            log_entry.action_flag = ADDITION
+            log_entry.save()
+        except Exception as err:
+            logger.debug(err)
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    from django.test import LiveServerTestCase
 
-    from selenium import webdriver
-    from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-    from selenium.webdriver.support.wait import WebDriverWait
-    # from selenium.common.exceptions import WebDriverException
+@pytest.mark.django_db
+class AdminTimelineViewsTest(LiveServerTestCase):
+    """Tests of ``admin_timeline.views.log`` module."""
 
-    @pytest.mark.django_db
-    class AdminTimelineViewsTest(LiveServerTestCase):
-        """Tests of ``admin_timeline.views.log`` module."""
+    pytestmark = pytest.mark.django_db
 
-        pytestmark = pytest.mark.django_db
-
-        @classmethod
-        def setUpClass(cls):
-            chrome_driver_path = getattr(
-                settings,
-                'CHROME_DRIVER_EXECUTABLE_PATH',
-                None
+    @classmethod
+    def setUpClass(cls):
+        chrome_driver_path = getattr(
+            settings,
+            'CHROME_DRIVER_EXECUTABLE_PATH',
+            None
+        )
+        chrome_driver_options = getattr(
+            settings,
+            'CHROME_DRIVER_OPTIONS',
+            None
+        )
+        firefox_bin_path = getattr(settings, 'FIREFOX_BIN_PATH', None)
+        phantom_js_executable_path = getattr(
+            settings, 'PHANTOM_JS_EXECUTABLE_PATH', None
+        )
+        if chrome_driver_path is not None:
+            cls.driver = webdriver.Chrome(
+                executable_path=chrome_driver_path,
+                chrome_options=chrome_driver_options
             )
-            chrome_driver_options = getattr(
-                settings,
-                'CHROME_DRIVER_OPTIONS',
-                None
-            )
-            firefox_bin_path = getattr(settings, 'FIREFOX_BIN_PATH', None)
-            phantom_js_executable_path = getattr(
-                settings, 'PHANTOM_JS_EXECUTABLE_PATH', None
-            )
-            if chrome_driver_path is not None:
-                cls.driver = webdriver.Chrome(
-                    executable_path=chrome_driver_path,
-                    chrome_options=chrome_driver_options
+        elif phantom_js_executable_path is not None:
+            if phantom_js_executable_path:
+                cls.driver = webdriver.PhantomJS(
+                    executable_path=phantom_js_executable_path
                 )
-            elif phantom_js_executable_path is not None:
-                if phantom_js_executable_path:
-                    cls.driver = webdriver.PhantomJS(
-                        executable_path=phantom_js_executable_path
-                    )
-                else:
-                    cls.driver = webdriver.PhantomJS()
-            elif firefox_bin_path:
-                binary = FirefoxBinary(firefox_bin_path)
-                cls.driver = webdriver.Firefox(firefox_binary=binary)
             else:
-                cls.driver = webdriver.Firefox()
+                cls.driver = webdriver.PhantomJS()
+        elif firefox_bin_path:
+            binary = FirefoxBinary(firefox_bin_path)
+            cls.driver = webdriver.Firefox(firefox_binary=binary)
+        else:
+            cls.driver = webdriver.Firefox()
 
-            super(AdminTimelineViewsTest, cls).setUpClass()
+        super(AdminTimelineViewsTest, cls).setUpClass()
 
-            # Create user if doesn't exist yet.
+        # Create user if doesn't exist yet.
+        try:
+            user = User._default_manager.get(username=TEST_USERNAME)
+        except Exception as err:
+            logger.debug(err)
+
+            # Create a user account
+            user = User()
+            user.username = TEST_USERNAME
+            user.set_password(TEST_PASSWORD)
+            user.email = 'admin@dev.example.com'
+            user.is_active = True
+            user.is_staff = True
+            user.is_superuser = True
+
             try:
-                user = User._default_manager.get(username=TEST_USERNAME)
+                user.save()
+            except IntegrityError as err:
+                logger.debug(err)
             except Exception as err:
                 logger.debug(err)
 
-                # Create a user account
-                user = User()
-                user.username = TEST_USERNAME
-                user.set_password(TEST_PASSWORD)
-                user.email = 'admin@dev.example.com'
-                user.is_active = True
-                user.is_staff = True
-                user.is_superuser = True
+        # Generate test data
+        try:
+            generate_data()
+        except Exception as err:
+            logger.debug(err)
 
-                try:
-                    user.save()
-                except IntegrityError as err:
-                    logger.debug(err)
-                except Exception as err:
-                    logger.debug(err)
+    @classmethod
+    def tearDownClass(cls):
+        try:
+            cls.driver.quit()
+        except Exception as err:
+            logger.debug(err)
 
-            # Generate test data
-            try:
-                generate_data()
-            except Exception as err:
-                logger.debug(err)
+        super(AdminTimelineViewsTest, cls).tearDownClass()
 
-        @classmethod
-        def tearDownClass(cls):
-            try:
-                cls.driver.quit()
-            except Exception as err:
-                logger.debug(err)
+    def setUp(self):
+        create_users()
+        generate_data(num_items=10)
 
-            super(AdminTimelineViewsTest, cls).tearDownClass()
+    @log_info
+    def test_01_login(self):
+        """Test login."""
+        self.driver.get('{0}{1}'.format(self.live_server_url, '/admin/'))
+        username_input = self.driver.find_element_by_name("username")
+        username_input.send_keys(TEST_USERNAME)
+        password_input = self.driver.find_element_by_name("password")
+        password_input.send_keys(TEST_PASSWORD)
+        self.driver.find_element_by_xpath(
+            '//input[@value="Log in"]').click()
 
-        def setUp(self):
-            create_users()
-            generate_data(num_items=10)
+    @log_info
+    def test_02_view(self):
+        """Test view."""
+        # create_users()
+        # # Generate test data
+        # try:
+        #     generate_data(num_items=10)
+        # except Exception as err:
+        #     logger.debug(err)
 
-        @log_info
-        def test_01_login(self):
-            """Test login."""
-            self.driver.get('{0}{1}'.format(self.live_server_url, '/admin/'))
-            username_input = self.driver.find_element_by_name("username")
-            username_input.send_keys(TEST_USERNAME)
-            password_input = self.driver.find_element_by_name("password")
-            password_input.send_keys(TEST_PASSWORD)
-            self.driver.find_element_by_xpath(
-                '//input[@value="Log in"]').click()
+        # Test login
+        self.driver.get(
+            '{0}{1}'.format(self.live_server_url, '/admin/timeline/')
+        )
+        username_input = self.driver.find_element_by_name("username")
+        username_input.send_keys(TEST_USERNAME)
+        password_input = self.driver.find_element_by_name("password")
+        password_input.send_keys(TEST_PASSWORD)
+        self.driver.find_element_by_xpath(
+            '//input[@value="Log in"]').click()
 
-        @log_info
-        def test_02_view(self):
-            """Test view."""
-            # create_users()
-            # # Generate test data
-            # try:
-            #     generate_data(num_items=10)
-            # except Exception as err:
-            #     logger.debug(err)
+        WebDriverWait(self.driver, timeout=5).until(
+            lambda driver: driver.find_element_by_id('admin-timeline')
+        )
 
-            # Test login
-            self.driver.get(
-                '{0}{1}'.format(self.live_server_url, '/admin/timeline/')
-            )
-            username_input = self.driver.find_element_by_name("username")
-            username_input.send_keys(TEST_USERNAME)
-            password_input = self.driver.find_element_by_name("password")
-            password_input.send_keys(TEST_PASSWORD)
-            self.driver.find_element_by_xpath(
-                '//input[@value="Log in"]').click()
+        # Test view
+        workflow = []
 
-            WebDriverWait(self.driver, timeout=5).until(
-                lambda driver: driver.find_element_by_id('admin-timeline')
-            )
+        container = self.driver.find_element_by_id('admin-timeline')
+        self.assertTrue(container is not None)
+        workflow.append(container)
 
-            # Test view
-            workflow = []
-
-            container = self.driver.find_element_by_id('admin-timeline')
-            self.assertTrue(container is not None)
-            workflow.append(container)
-
-            WebDriverWait(self.driver, timeout=5).until(
-                lambda driver: driver.find_element_by_xpath(
-                    '//li[@class="date-entry"]'
-                )
-            )
-
-            item = self.driver.find_element_by_xpath(
+        WebDriverWait(self.driver, timeout=5).until(
+            lambda driver: driver.find_element_by_xpath(
                 '//li[@class="date-entry"]'
             )
-            self.assertTrue(item is not None)
-            workflow.append(item)
+        )
 
-            return workflow
+        item = self.driver.find_element_by_xpath(
+            '//li[@class="date-entry"]'
+        )
+        self.assertTrue(item is not None)
+        workflow.append(item)
+
+        return workflow
 
 
 if __name__ == "__main__":
