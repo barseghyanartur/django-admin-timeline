@@ -40,7 +40,7 @@ from .data import TEST_PASSWORD, TEST_USERNAME, USERS_CREATED, TEST_USERS_DATA
 
 __title__ = 'admin_timeline.tests.test_core'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
-__copyright__ = '2013-2019 Artur Barseghyan'
+__copyright__ = '2013-2021 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
 logger = logging.getLogger(__name__)
