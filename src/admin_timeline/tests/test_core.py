@@ -1,3 +1,4 @@
+from functools import lru_cache
 import logging
 import os
 import random
@@ -66,6 +67,7 @@ def create_users():
             except Exception as err:
                 logger.debug("{0} {1}".format(err, user))
 
+
 MODEL_FACTORY = (
     FooItem,
     Foo2Item,
@@ -81,8 +83,8 @@ CHANGE_MESSAGE_FACTORY = (
 )
 
 
-def generate_data(num_items=NUM_ITEMS):
-    create_users()
+@lru_cache(maxsize=128)
+def get_custom_log_entry_model():
 
     class CustomLogEntry(models.Model):
         """Custom log entry."""
@@ -106,6 +108,12 @@ def generate_data(num_items=NUM_ITEMS):
 
             db_table = LogEntry._meta.db_table
 
+    return CustomLogEntry
+
+
+def generate_data(num_items=NUM_ITEMS):
+    create_users()
+    CustomLogEntry = get_custom_log_entry_model()  # noqa
     words = WORDS[:]
 
     users = User.objects.all()[:]
@@ -203,7 +211,7 @@ class AdminTimelineViewsTest(LiveServerTestCase):
         if chrome_driver_path is not None:
             cls.driver = webdriver.Chrome(
                 executable_path=chrome_driver_path,
-                chrome_options=chrome_driver_options
+                options=chrome_driver_options
             )
         elif phantom_js_executable_path is not None:
             if phantom_js_executable_path:

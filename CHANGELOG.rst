@@ -17,7 +17,7 @@ are used for versioning (schema follows below):
 
 1.8
 ---
-2021-01-25
+2021-01-30
 
 - Drop Python 2.7 support.
 - Drop Python 3.5 support.

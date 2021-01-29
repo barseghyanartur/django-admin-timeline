@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -10,16 +10,16 @@ admin.autodiscover()
 
 urlpatterns = [
     # django-admin-timeline URLs. Should come before the django-admin URLs.
-    url(r'^admin/timeline/', include('admin_timeline.urls')),
+    re_path(r'^admin/timeline/', include('admin_timeline.urls')),
 ]
 
 if DJANGO_GTE_2_0:
     urlpatterns += [
-        url(r'^admin/', admin.site.urls),
+        re_path(r'^admin/', admin.site.urls),
     ]
 else:
     urlpatterns += [
-        url(r'^admin/', include(admin.site.urls)),
+        re_path(r'^admin/', include(admin.site.urls)),
     ]
 
 if settings.DEBUG:
@@ -31,5 +31,5 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns += [
-            url(r'^__debug__/', include(debug_toolbar.urls)),
+            re_path(r'^__debug__/', include(debug_toolbar.urls)),
         ]

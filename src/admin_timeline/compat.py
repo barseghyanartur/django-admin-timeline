@@ -10,6 +10,7 @@ __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'TEMPLATE_NAME',
     'TEMPLATE_NAME_AJAX',
+    'django_versions',
 )
 
 

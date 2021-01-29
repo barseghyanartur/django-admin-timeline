@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '1.7.2'
+version = '1.8'
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
@@ -30,12 +30,10 @@ setup(
     long_description="{0}{1}".format(readme, screenshots),
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Intended Audience :: Developers",

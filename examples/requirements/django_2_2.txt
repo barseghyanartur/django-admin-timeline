@@ -3,6 +3,5 @@
 -r docs.txt
 -r test.txt
 
-Django>=2.2,<2.3
-django-debug-toolbar==1.9.1
-
+Django>=2.2,<3.0
+django-debug-toolbar>=2.0

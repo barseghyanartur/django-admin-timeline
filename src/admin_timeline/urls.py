@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import re_path
 
 from .views import log
 
@@ -10,5 +10,5 @@ __all__ = ('urlpatterns',)
 
 
 urlpatterns = [
-    url(r'^$', view=log, name='admin_timeline.log'),
+    re_path(r'^$', view=log, name='admin_timeline.log'),
 ]
